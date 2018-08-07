@@ -10,6 +10,7 @@ android {
         targetSdkVersion rootProject.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
+        buildConfigField 'String', 'BASE_URL', '"https://maps.googleapis.com/maps/api/"'
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -69,7 +70,7 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     kapt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.butterVer
-
+    implementation 'com.google.maps.android:android-maps-utils:0.5+'
     //Glide
     implementation 'com.github.bumptech.glide:glide:' + rootProject.ext.glideVer
     kapt 'com.github.bumptech.glide:compiler:' + rootProject.ext.glideVer

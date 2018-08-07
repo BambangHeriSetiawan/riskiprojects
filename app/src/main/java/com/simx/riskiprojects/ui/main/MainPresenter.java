@@ -5,4 +5,8 @@ package com.simx.riskiprojects.ui.main;
  */
 
 public interface MainPresenter {
+
+	void showError(String message);
+
+	void startServiceLocation();
 }

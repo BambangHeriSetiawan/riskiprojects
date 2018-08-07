@@ -1,8 +1,14 @@
 package com.simx.riskiprojects.ui.main;
 
+import android.Manifest.permission;
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -13,6 +19,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,20 +27,21 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.crashlytics.android.Crashlytics;
+import android.widget.Toast;
 import com.simx.riskiprojects.BuildConfig;
 import com.simx.riskiprojects.R;
-import com.simx.riskiprojects.data.model.UserModel;
-import com.simx.riskiprojects.di.base.BaseActivity;
 import com.simx.riskiprojects.di.base.BaseActivitySuppotFragment;
+import com.simx.riskiprojects.helper.AppConst;
 import com.simx.riskiprojects.helper.RoundedImageView;
 
+import com.simx.riskiprojects.helper.preference.LocationPreferences;
+import com.simx.riskiprojects.helper.preference.PrefKey;
+import com.simx.riskiprojects.service.LocationFetchService;
+import com.simx.riskiprojects.ui.main.home.HomeFragment;
 import com.simx.riskiprojects.ui.main.klinik.KlinikFragment;
-import com.simx.riskiprojects.ui.main.maps.MapsFragment;
 import com.simx.riskiprojects.ui.main.pks.PuskesmasFragment;
 import com.simx.riskiprojects.ui.main.rs.RSFragment;
-import com.simx.riskiprojects.ui.main.rs.RsFragmentModule;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -58,12 +66,35 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
     DrawerLayout drawerView;
     TextView tvName, tvEmail;
     RoundedImageView imgProfile;
+
+    private AlertDialog mInternetDialog;
+    private AlertDialog mGPSDialog;
     public static void start(Context context) {
         Intent starter = new Intent(context, MainActivity.class);
         starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(starter);
     }
-
+    private BroadcastReceiver mNetworkDetectReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),AppConst.RC_LOCATION);
+        }
+    };
+    private BroadcastReceiver mGPSDetectReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LocationManager locationManager = (LocationManager) context.getSystemService(
+                    LOCATION_SERVICE);
+            if (locationManager != null) {
+                if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+					startServiceLocation();
+				} else {
+					showGPSDiabledDialog();
+				}
+            }
+        }
+    };
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +102,6 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         iniUI();
-
     }
     private void iniUI() {
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
@@ -100,14 +130,22 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
         imgProfile = hView.findViewById(R.id.iv_profile_pic);
         tvAppVersion.setText(version);
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
-        Fragment fragment = MapsFragment.newInstance();
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frame,fragment).commit();
-
+        loadFragment(HomeFragment.newInstance());
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter intent = new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
+        registerReceiver(mGPSDetectReceiver,intent);
+    }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mGPSDetectReceiver);
+        super.onDestroy();
+
+    }
 
     private OnNavigationItemSelectedListener navigationItemSelectedListener  = new OnNavigationItemSelectedListener() {
         @Override
@@ -116,7 +154,7 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
             switch (item.getItemId()) {
 
                 case R.id.nav_home:
-                    loadFragment(MapsFragment.newInstance());
+                    loadFragment(HomeFragment.newInstance());
                     return true;
                 case R.id.nav_rumah_sakit:
                     loadFragment(RSFragment.newInstance());
@@ -156,5 +194,44 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
         FragmentTransaction ft = fm.beginTransaction();ft.setCustomAnimations(R.anim.slide_left,R.anim.slide_right,0,0);
         ft.replace(R.id.frame, fragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).disallowAddToBackStack().commit();
         drawerView.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK){
+            if (requestCode == AppConst.RC_LOCATION){
+                startServiceLocation();
+            }
+            else if (requestCode == AppConst.DATA_ENABLE_REQUEST)startServiceLocation();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void startServiceLocation() {
+        Intent i= new Intent(this, LocationFetchService.class);
+        startService(i);
+    }
+
+    public void showGPSDiabledDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("GPS Disabled");
+        builder.setMessage("Gps is disabled, in order to use the application properly you need to enable GPS of your device");
+        builder.setPositiveButton("Settings", (dialog, which) -> {
+			Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+			startActivity(intent);
+		});
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        AlertDialog mGPSDialog = builder.create();
+        mGPSDialog.show();
     }
 }

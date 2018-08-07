@@ -3,7 +3,6 @@ package com.simx.riskiprojects.di.module;
 import com.simx.riskiprojects.ui.main.MainActivity;
 import com.simx.riskiprojects.ui.main.MainActivityModul;
 import com.simx.riskiprojects.ui.main.MainActivityProvideModule;
-import com.simx.riskiprojects.ui.main.maps.MapFragmentModule;
 import com.simx.riskiprojects.ui.splash.SplashActivity;
 
 import dagger.Module;

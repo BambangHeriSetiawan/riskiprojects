@@ -6,4 +6,16 @@ package com.simx.riskiprojects.ui.splash;
 
 public interface SplashPresenter {
     void gotoMain();
+
+	void startServiceLocation();
+
+	void onPermissionDenied(String name);
+
+	void gotoSetting(String name);
+
+	void showError(String message);
+
+	void showDilogNoIntenet();
+
+	void onPermissionGranter();
 }
