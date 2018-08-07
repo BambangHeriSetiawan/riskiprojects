@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
@@ -54,32 +54,18 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:' + rootProject.ext.firebaseVer
     implementation 'com.google.firebase:firebase-storage:' + rootProject.ext.firebaseVer
     implementation 'com.google.firebase:firebase-messaging:' + rootProject.ext.firebaseVer
-    //implementation 'com.google.firebase:firebase-config:' + rootProject.ext.firebaseVer
-    //implementation 'com.google.firebase:firebase-invites:' + rootProject.ext.firebaseVer
     implementation 'com.google.firebase:firebase-ads:' + rootProject.ext.firebaseVer
-    //implementation 'com.google.firebase:firebase-appindexing:' + rootProject.ext.firebaseVer
-    //implementation 'com.google.firebase:firebase-perf:' + rootProject.ext.firebaseVer
-
-    //Firebase UI
-    implementation 'com.firebaseui:firebase-ui-auth:'+ rootProject.ext.firebaseUiVer
-
-    // Required only if Facebook login support is required
-    //implementation('com.facebook.android:facebook-android-sdk:4.27.0')
-
-    // Required only if Twitter login support is required
-    //implementation("com.twitter.sdk.android:twitter-core:3.0.0@aar") { transitive = true }
-
     //Butterknife
     implementation 'com.jakewharton:butterknife:' + rootProject.ext.butterVer
-    annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.ext.butterVer
+    kapt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.butterVer
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:' + rootProject.ext.glideVer
-    annotationProcessor 'com.github.bumptech.glide:compiler:' + rootProject.ext.glideVer
+    kapt 'com.github.bumptech.glide:compiler:' + rootProject.ext.glideVer
 
     //Dagger 2
-    annotationProcessor "com.google.dagger:dagger-compiler:" + rootProject.ext.dagger2Ver
-    annotationProcessor "com.google.dagger:dagger-android-processor:" + rootProject.ext.dagger2Ver
+    kapt "com.google.dagger:dagger-compiler:" + rootProject.ext.dagger2Ver
+    kapt "com.google.dagger:dagger-android-processor:" + rootProject.ext.dagger2Ver
     implementation "com.google.dagger:dagger:" + rootProject.ext.dagger2Ver
     implementation "com.google.dagger:dagger-android:" + rootProject.ext.dagger2Ver
     implementation "com.google.dagger:dagger-android-support:" + rootProject.ext.dagger2Ver
@@ -88,11 +74,11 @@ dependencies {
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {
