@@ -1,30 +1,21 @@
 package com.simx.riskiprojects.ui.splash;
 
-import com.simx.riskiprojects.data.model.UserModel;
-
-
 import javax.inject.Inject;
 
 /**
  * Created by simx on 14/02/18.
  */
 
-public class SplashPresenterImpl implements SplashPresenter {
-    SplashView splashView;
+public class SplashPresenterImpl {
+    private SplashPresenter presenter;
 
     @Inject
-    public SplashPresenterImpl(SplashView splashView) {
-        this.splashView = splashView;
+    public SplashPresenterImpl(SplashPresenter presenter) {
+        this.presenter = presenter;
 
     }
 
-    @Override
     public void loadSplash() {
-
-
-    }
-
-    private void createUserDatbase(UserModel user) {
-
+        presenter.gotoMain();
     }
 }

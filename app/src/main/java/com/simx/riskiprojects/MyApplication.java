@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 
 
+import com.simx.riskiprojects.di.component.DaggerAppComponent;
+import com.simx.riskiprojects.di.module.NetModule;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
@@ -25,7 +27,7 @@ public class MyApplication extends Application implements HasActivityInjector{
     @Override
     public void onCreate() {
         super.onCreate();
-
+        DaggerAppComponent.builder().application(this).net(new NetModule()).build().inject(this);
         CalligraphyConfig.initDefault(mCalligraphyConfig);
     }
 

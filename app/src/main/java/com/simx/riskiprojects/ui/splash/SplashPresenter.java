@@ -5,5 +5,5 @@ package com.simx.riskiprojects.ui.splash;
  */
 
 public interface SplashPresenter {
-    void loadSplash();
+    void gotoMain();
 }

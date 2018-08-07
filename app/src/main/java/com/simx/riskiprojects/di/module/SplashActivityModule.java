@@ -2,8 +2,8 @@ package com.simx.riskiprojects.di.module;
 
 
 import com.simx.riskiprojects.ui.splash.SplashActivity;
+import com.simx.riskiprojects.ui.splash.SplashPresenter;
 import com.simx.riskiprojects.ui.splash.SplashPresenterImpl;
-import com.simx.riskiprojects.ui.splash.SplashView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -15,14 +15,14 @@ import dagger.Provides;
 public class SplashActivityModule {
 
     @Provides
-    SplashView splashView(SplashActivity splashActivity){
+    SplashPresenter provideSplashPresenter(SplashActivity splashActivity){
         return splashActivity;
     }
 
 
     @Provides
-    SplashPresenterImpl provideSplahPresenter(SplashView splashView){
-        return new SplashPresenterImpl(splashView);
+    SplashPresenterImpl provideSplahPresenterImpl(SplashPresenter presenter){
+        return new SplashPresenterImpl(presenter);
     }
 
 }

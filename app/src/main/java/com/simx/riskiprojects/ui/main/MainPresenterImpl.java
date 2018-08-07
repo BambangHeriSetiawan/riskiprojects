@@ -11,16 +11,9 @@ import com.simx.riskiprojects.data.remote.FirebaseAuthService;
  */
 
 public class MainPresenterImpl {
-    MainView mainView;
+    private MainPresenter presenter;
 
-
-    public MainPresenterImpl(MainView mainView) {
-        this.mainView = mainView;
-
-    }
-
-
-    public void logout(Context context){
-
+    public MainPresenterImpl(MainPresenter presenter) {
+        this.presenter = presenter;
     }
 }

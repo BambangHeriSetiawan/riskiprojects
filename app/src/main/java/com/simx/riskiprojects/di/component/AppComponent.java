@@ -5,11 +5,7 @@ import android.app.Application;
 import com.simx.riskiprojects.MyApplication;
 import com.simx.riskiprojects.di.module.ActivityBuilder;
 import com.simx.riskiprojects.di.module.AppModule;
-import com.simx.riskiprojects.di.module.FirebaseModule;
 import com.simx.riskiprojects.di.module.NetModule;
-import com.simx.riskiprojects.di.module.SingInActivityModule;
-import com.simx.riskiprojects.di.module.SplashActivityModule;
-import com.simx.riskiprojects.ui.splash.SplashActivity;
 
 
 import javax.inject.Singleton;
@@ -17,7 +13,6 @@ import javax.inject.Singleton;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
-import dagger.android.AndroidInjector;
 
 /**
  * Created by simx on 14/02/18.
@@ -27,7 +22,6 @@ import dagger.android.AndroidInjector;
         AndroidInjectionModule.class,
         AppModule.class,
         ActivityBuilder.class,
-
         NetModule.class
 })
 public interface AppComponent  {
@@ -37,7 +31,6 @@ public interface AppComponent  {
 
         @BindsInstance Builder application(Application application);
         AppComponent build();
-
         Builder net(NetModule netModule);
     }
 

@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity implements MainView {
+public class MainActivity extends BaseActivity implements MainPresenter {
 
     @Inject
     MainPresenterImpl presenter;
@@ -60,6 +60,7 @@ public class MainActivity extends BaseActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        iniUI();
     }
 
     private void iniUI() {
@@ -102,27 +103,12 @@ public class MainActivity extends BaseActivity implements MainView {
 
 					return true;
 				case R.id.navItemLogout:
-					presenter.logout(getApplicationContext());
+
 					return true;
 				default:
 					return false;
 			}
 		});
-    }
-
-    @Override
-    public void initProfile(UserModel userModel) {
-        tvEmail.setText(userModel.getEmail());
-        tvName.setText(userModel.getName());
-        Glide.with(this)
-                .load(userModel.getPhotoUri())
-                .into(imgProfile);
-    }
-
-    @Override
-    public void gotoLogin() {
-
-        this.finish();
     }
 
     @Override
@@ -158,29 +144,4 @@ public class MainActivity extends BaseActivity implements MainView {
         if (drawerView != null)
             drawerView.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
-
-/*    @Override
-    public void onBackPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(AboutFragment.TAG);
-        if (fragment == null) {
-            super.onBackPressed();
-        } else {
-            onFragmentDetached(AboutFragment.TAG);
-        }
-    }
-
-    public void onFragmentDetached(String tag) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(tag);
-        if (fragment != null) {
-            fragmentManager
-                    .beginTransaction()
-                    .disallowAddToBackStack()
-                    .setCustomAnimations(R.anim.slide_left, R.anim.slide_right)
-                    .remove(fragment)
-                    .commitNow();
-            unlockDrawer();
-        }
-    }*/
 }
