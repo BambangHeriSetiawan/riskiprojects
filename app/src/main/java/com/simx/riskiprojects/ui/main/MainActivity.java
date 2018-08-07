@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.crashlytics.android.Crashlytics;
 import com.simx.riskiprojects.BuildConfig;
 import com.simx.riskiprojects.R;
 import com.simx.riskiprojects.data.model.UserModel;
@@ -70,6 +71,7 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         iniUI();
+
     }
     private void iniUI() {
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(

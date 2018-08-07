@@ -3,10 +3,13 @@ package com.simx.riskiprojects.di.module;
 import android.app.Application;
 import android.content.Context;
 
+import com.crashlytics.android.Crashlytics;
+import com.simx.riskiprojects.MyApplication;
 import com.simx.riskiprojects.R;
 import com.simx.riskiprojects.data.model.UserModel;
 import com.simx.riskiprojects.helper.NetworkUtils;
 
+import io.fabric.sdk.android.Fabric;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -37,6 +40,13 @@ public class AppModule {
         return new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/source-sans-pro/SourceSansPro-Regular.ttf")
                 .setFontAttrId(R.attr.fontPath)
+                .build();
+    }
+    @Provides
+    @Singleton Fabric provideFabric(){
+        return new Fabric.Builder(MyApplication.getContext())
+                .kits(new Crashlytics())
+                .debuggable(true)
                 .build();
     }
 

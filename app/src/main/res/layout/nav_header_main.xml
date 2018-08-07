@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp">
     <com.simx.riskiprojects.helper.RoundedImageView
+      android:visibility="gone"
         android:id="@+id/iv_profile_pic"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -15,6 +16,7 @@
         android:src="@mipmap/ic_launcher" />
 
     <TextView
+      android:visibility="gone"
         android:text="Bambang Heri Setiawan"
         android:id="@+id/tv_name"
         style="@style/TextStyle.Title"
@@ -23,6 +25,7 @@
         android:layout_marginTop="10dp" />
 
     <TextView
+      android:visibility="gone"
         android:text="setiawan.heri.bambang@gmail.com"
         android:id="@+id/tv_email"
         style="@style/TextStyle.Title.Sub"
