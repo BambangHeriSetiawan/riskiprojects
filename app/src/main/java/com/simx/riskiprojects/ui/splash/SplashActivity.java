@@ -12,7 +12,6 @@ import com.simx.riskiprojects.R;
 import com.simx.riskiprojects.di.base.BaseActivity;
 import com.simx.riskiprojects.helper.NetworkUtils;
 import com.simx.riskiprojects.ui.main.MainActivity;
-import com.simx.riskiprojects.ui.singin.SingInActivity;
 
 import javax.inject.Inject;
 
@@ -53,13 +52,13 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
     @Override
     public void gotoLogin() {
-        SingInActivity.start(this);
+        MainActivity.start(this);
         this.finish();
     }
 
     @Override
     public void gotoMain(String uid) {
-        MainActivity.start(this,uid);
+        MainActivity.start(this);
         this.finish();
     }
 

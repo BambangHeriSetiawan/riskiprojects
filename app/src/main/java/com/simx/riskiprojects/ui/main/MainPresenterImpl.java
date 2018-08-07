@@ -33,10 +33,6 @@ public class MainPresenterImpl {
                 });
     }
     public void logout(Context context){
-        firebaseAuthService.logout(context).addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                mainView.gotoLogin();
-            }
-        });
+
     }
 }

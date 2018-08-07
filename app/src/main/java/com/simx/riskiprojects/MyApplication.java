@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 
 
-import com.simx.riskiprojects.di.component.DaggerAppComponent;
-import com.simx.riskiprojects.di.module.FirebaseModule;
-
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
@@ -28,12 +25,7 @@ public class MyApplication extends Application implements HasActivityInjector{
     @Override
     public void onCreate() {
         super.onCreate();
-        DaggerAppComponent
-                .builder()
-                .application(this)
-                .firebase(new FirebaseModule())
-                .build()
-                .inject(this);
+
         CalligraphyConfig.initDefault(mCalligraphyConfig);
     }
 

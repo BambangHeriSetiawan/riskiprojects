@@ -2,7 +2,6 @@ package com.simx.riskiprojects.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
@@ -18,13 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
 import com.simx.riskiprojects.BuildConfig;
 import com.simx.riskiprojects.R;
 import com.simx.riskiprojects.data.model.UserModel;
 import com.simx.riskiprojects.di.base.BaseActivity;
 import com.simx.riskiprojects.helper.RoundedImageView;
-import com.simx.riskiprojects.ui.singin.SingInActivity;
 
 import javax.inject.Inject;
 
@@ -51,10 +48,9 @@ public class MainActivity extends BaseActivity implements MainView {
     TextView tvName, tvEmail;
     RoundedImageView imgProfile;
     public static String KEY_ID = "id";
-    public static void start(Context context, String uid) {
+    public static void start(Context context) {
         Intent starter = new Intent(context, MainActivity.class);
         starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        starter.putExtra(KEY_ID,uid);
         context.startActivity(starter);
     }
 
@@ -64,13 +60,6 @@ public class MainActivity extends BaseActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        iniUI();
-        Bundle bundle = getIntent().getExtras();
-        if (bundle!=null){
-            String uid = bundle.getString(KEY_ID);
-            presenter.geDataUser(uid);
-        }
-
     }
 
     private void iniUI() {
@@ -100,29 +89,25 @@ public class MainActivity extends BaseActivity implements MainView {
         tvEmail = hView.findViewById(R.id.tv_email);
         imgProfile = hView.findViewById(R.id.iv_profile_pic);
         tvAppVersion.setText(version);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        drawerView.closeDrawer(GravityCompat.START);
-                        switch (item.getItemId()) {
-                            case R.id.navItemAbout:
+        navigationView.setNavigationItemSelectedListener(item -> {
+			drawerView.closeDrawer(GravityCompat.START);
+			switch (item.getItemId()) {
+				case R.id.navItemAbout:
 
-                                return true;
-                            case R.id.navItemRateUs:
+					return true;
+				case R.id.navItemRateUs:
 
-                                return true;
-                            case R.id.navItemFeed:
+					return true;
+				case R.id.navItemFeed:
 
-                                return true;
-                            case R.id.navItemLogout:
-                                presenter.logout(getApplicationContext());
-                                return true;
-                            default:
-                                return false;
-                        }
-                    }
-                });
+					return true;
+				case R.id.navItemLogout:
+					presenter.logout(getApplicationContext());
+					return true;
+				default:
+					return false;
+			}
+		});
     }
 
     @Override
@@ -136,7 +121,7 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void gotoLogin() {
-        SingInActivity.start(this);
+
         this.finish();
     }
 
