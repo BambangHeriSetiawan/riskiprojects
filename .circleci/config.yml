@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       #- image: circleci/openjdk:8-jdk
-      - image: circleci/android:api-28-alpha
+      - image: circleci/android:api-27-alpha
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -25,7 +25,7 @@ jobs:
       dependencies:
         override:
           - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
-          - echo y | android update sdk --no-ui --filter "platform-tools,build-tools-28.0.1,build-tools-20.0.0,android-21,sys-img-armeabi-v7a-android-21,android-20,sys-img-armeabi-v7a-android-wear-20,android-19,sys-img-armeabi-v7a-android-19,android-18,sys-img-armeabi-v7a-android-18,android-17,sys-img-armeabi-v7a-android-17,android-16,sys-img-armeabi-v7a-android-16,android-15,sys-img-armeabi-v7a-android-15,android-10,extra-android-support,extra-google-google_play_services,extra-google-m2repository,extra-android-m2repository,sys-img-x86-android-21,build-tools-19.0.0"
+          - echo y | android update sdk --no-ui --filter "platform-tools,build-tools- 27.0.3,build-tools-20.0.0,android-21,sys-img-armeabi-v7a-android-21,android-20,sys-img-armeabi-v7a-android-wear-20,android-19,sys-img-armeabi-v7a-android-19,android-18,sys-img-armeabi-v7a-android-18,android-17,sys-img-armeabi-v7a-android-17,android-16,sys-img-armeabi-v7a-android-16,android-15,sys-img-armeabi-v7a-android-15,android-10,extra-android-support,extra-google-google_play_services,extra-google-m2repository,extra-android-m2repository,sys-img-x86-android-21,build-tools-19.0.0"
     steps:
       - checkout
       # Download and cache dependencies
