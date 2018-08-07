@@ -12,26 +12,14 @@ import com.simx.riskiprojects.data.remote.FirebaseAuthService;
 
 public class MainPresenterImpl {
     MainView mainView;
-    FirebaseAuthService firebaseAuthService;
 
 
-    public MainPresenterImpl(MainView mainView, FirebaseAuthService firebaseAuthService) {
+    public MainPresenterImpl(MainView mainView) {
         this.mainView = mainView;
-        this.firebaseAuthService = firebaseAuthService;
+
     }
 
-    public void geDataUser(String uid) {
-        firebaseAuthService
-                .getDocumentUser(uid)
-                .get()
-                .addOnCompleteListener(task -> {
-                    DocumentSnapshot snapshot = task.getResult();
-                    if (snapshot.exists()){
-                        UserModel userModel = snapshot.toObject(UserModel.class);
-                        mainView.initProfile(userModel);
-                    }
-                });
-    }
+
     public void logout(Context context){
 
     }

@@ -6,6 +6,7 @@ import com.simx.riskiprojects.MyApplication;
 import com.simx.riskiprojects.di.module.ActivityBuilder;
 import com.simx.riskiprojects.di.module.AppModule;
 import com.simx.riskiprojects.di.module.FirebaseModule;
+import com.simx.riskiprojects.di.module.NetModule;
 import com.simx.riskiprojects.di.module.SingInActivityModule;
 import com.simx.riskiprojects.di.module.SplashActivityModule;
 import com.simx.riskiprojects.ui.splash.SplashActivity;
@@ -26,7 +27,8 @@ import dagger.android.AndroidInjector;
         AndroidInjectionModule.class,
         AppModule.class,
         ActivityBuilder.class,
-        FirebaseModule.class
+
+        NetModule.class
 })
 public interface AppComponent  {
 
@@ -34,10 +36,9 @@ public interface AppComponent  {
     interface Builder {
 
         @BindsInstance Builder application(Application application);
-
         AppComponent build();
 
-        Builder firebase(FirebaseModule firebaseModule);
+        Builder net(NetModule netModule);
     }
 
     void inject(MyApplication application);

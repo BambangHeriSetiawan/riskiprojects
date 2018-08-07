@@ -16,9 +16,5 @@ import dagger.Provides;
 public class FirebaseModule {
 
 
-    @Provides
-    @Singleton
-    FirebaseAuthService provideFirebaseAuthService(Application application){
-        return new FirebaseAuthService(application);
-    }
+
 }

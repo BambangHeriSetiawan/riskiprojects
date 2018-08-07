@@ -1,6 +1,6 @@
 package com.simx.riskiprojects.di.module;
 
-import com.simx.riskiprojects.data.remote.FirebaseAuthService;
+
 import com.simx.riskiprojects.ui.main.MainActivity;
 import com.simx.riskiprojects.ui.main.MainPresenterImpl;
 import com.simx.riskiprojects.ui.main.MainView;
@@ -18,7 +18,7 @@ public class MainActivityModul {
         return mainActivity;
     }
     @Provides
-    MainPresenterImpl provideMainPresenterImp(MainView mainView, FirebaseAuthService firebaseAuthService){
-        return new MainPresenterImpl(mainView,firebaseAuthService);
+    MainPresenterImpl provideMainPresenterImp(MainView mainView){
+        return new MainPresenterImpl(mainView);
     }
 }
