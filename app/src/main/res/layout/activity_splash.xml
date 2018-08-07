@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.simx.dagger2starter.ui.splash.SplashActivity">
+    tools:context="com.simx.riskiprojects.ui.splash.SplashActivity">
     <RelativeLayout
         android:background="@color/colorPrimary"
         android:id="@+id/activity_main"

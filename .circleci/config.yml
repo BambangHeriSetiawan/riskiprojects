@@ -1,0 +1,50 @@
+# Java Gradle CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2.0
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      #- image: circleci/openjdk:8-jdk
+      - image: circleci/android:api-27-alpha
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+      ANDROID_HOME: /opt/android/sdk
+
+      dependencies:
+        override:
+          - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
+          - echo y | android update sdk --no-ui --filter "platform-tools,build-tools- 27.0.3,build-tools-20.0.0,android-21,sys-img-armeabi-v7a-android-21,android-20,sys-img-armeabi-v7a-android-wear-20,android-19,sys-img-armeabi-v7a-android-19,android-18,sys-img-armeabi-v7a-android-18,android-17,sys-img-armeabi-v7a-android-17,android-16,sys-img-armeabi-v7a-android-16,android-15,sys-img-armeabi-v7a-android-15,android-10,extra-android-support,extra-google-google_play_services,extra-google-m2repository,extra-android-m2repository,sys-img-x86-android-21,build-tools-19.0.0"
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "build.gradle" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+
+      # run tests!
+      - run:
+          name: Run Tests
+          command: ./gradlew  test

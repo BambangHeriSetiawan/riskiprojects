@@ -4,13 +4,16 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.simx.dagger2starter"
+        applicationId "com.simx.riskiprojects"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+    }
+    lintOptions {
+        abortOnError false
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -23,6 +26,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "projects-${variant.buildType.name}-beta-${variant.versionName}.${variant.versionCode}.apk";
+        }
+    }
 }
 
 dependencies {
@@ -31,7 +39,7 @@ dependencies {
     implementation 'com.android.support:cardview-v7:' + rootProject.ext.googleVer
     implementation 'com.android.support:design:' + rootProject.ext.googleVer
     implementation 'com.android.support:recyclerview-v7:' + rootProject.ext.googleVer
-    implementation 'com.android.support:support-v4:'+ rootProject.ext.googleVer
+    implementation 'com.android.support:support-v4:' + rootProject.ext.googleVer
 
     // Because RxAndroid releases are few and far between, it is recommended you also
     // explicitly depend on RxJava's latest version for bug fixes and new features.
@@ -44,19 +52,19 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:' + rootProject.ext.retroVer
     implementation 'com.squareup.retrofit2:converter-gson:' + rootProject.ext.retroVer
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
-
-    implementation 'com.google.android.gms:play-services-auth:'+ rootProject.ext.firebaseVer
-
     //Firebase all
-    implementation 'com.google.firebase:firebase-core:' + rootProject.ext.firebaseVer
+    /* implementation 'com.google.firebase:firebase-core:' + rootProject.ext.firebaseVer
     implementation 'com.google.firebase:firebase-auth:' + rootProject.ext.firebaseVer
     implementation 'com.google.firebase:firebase-database:' + rootProject.ext.firebaseVer
-    implementation 'com.google.firebase:firebase-firestore:' + rootProject.ext.firebaseVer
+
     implementation 'com.google.firebase:firebase-storage:' + rootProject.ext.firebaseVer
     implementation 'com.google.firebase:firebase-messaging:' + rootProject.ext.firebaseVer
-    implementation 'com.google.firebase:firebase-ads:' + rootProject.ext.firebaseVer
+    implementation 'com.google.firebase:firebase-ads:' + rootProject.ext.firebaseVer*/
     //Butterknife
     implementation 'com.jakewharton:butterknife:' + rootProject.ext.butterVer
+    implementation 'com.google.firebase:firebase-firestore:17.0.4'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
     kapt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.butterVer
 
     //Glide
@@ -64,11 +72,11 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:' + rootProject.ext.glideVer
 
     //Dagger 2
-    kapt "com.google.dagger:dagger-compiler:" + rootProject.ext.dagger2Ver
-    kapt "com.google.dagger:dagger-android-processor:" + rootProject.ext.dagger2Ver
-    implementation "com.google.dagger:dagger:" + rootProject.ext.dagger2Ver
-    implementation "com.google.dagger:dagger-android:" + rootProject.ext.dagger2Ver
-    implementation "com.google.dagger:dagger-android-support:" + rootProject.ext.dagger2Ver
+    kapt "com.google.dagger:dagger-compiler:" + rootProject.ext.daggerVersion
+    kapt "com.google.dagger:dagger-android-processor:" + rootProject.ext.daggerVersion
+    implementation "com.google.dagger:dagger:" + rootProject.ext.daggerVersion
+    implementation "com.google.dagger:dagger-android:" + rootProject.ext.daggerVersion
+    implementation "com.google.dagger:dagger-android-support:" + rootProject.ext.daggerVersion
 
     //Tools
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
@@ -79,8 +87,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+
 }
 apply plugin: 'com.google.gms.google-services'
-repositories {
-    mavenCentral()
-}

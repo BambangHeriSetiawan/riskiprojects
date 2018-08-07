@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "996915705559",
-    "firebase_url": "https://mylabs-5ded5.firebaseio.com",
-    "project_id": "mylabs-5ded5",
-    "storage_bucket": "mylabs-5ded5.appspot.com"
+    "project_number": "439494078668",
+    "firebase_url": "https://riskiprojects-c721e.firebaseio.com",
+    "project_id": "riskiprojects-c721e",
+    "storage_bucket": "riskiprojects-c721e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:996915705559:android:33b15d57fe7f9812",
+        "mobilesdk_app_id": "1:439494078668:android:33b15d57fe7f9812",
         "android_client_info": {
           "package_name": "com.simx.dagger2starter"
         }
       },
       "oauth_client": [
         {
-          "client_id": "996915705559-f5air8hmv41fmlbce2d8mb9ul6sg6k8e.apps.googleusercontent.com",
+          "client_id": "439494078668-ld1tguguost7jstsctqgito00eu6qk1g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.simx.dagger2starter",
-            "certificate_hash": "d48d469b62342d0e3db29b3c266aa526fd56fda7"
+            "certificate_hash": "cf161c8341fb55b826b0af352c8500848c4ae76f"
           }
         },
         {
-          "client_id": "996915705559-drvas3tie4ga8ri06mvn2cgc56unpq11.apps.googleusercontent.com",
+          "client_id": "439494078668-ao505la2fn9dve89ifevlp34ak0bncr3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCbFSooMuM4HeTFhJROlDnnpTDz5XLPC-U"
+          "current_key": "AIzaSyA_U9LxabwJPHgy3dPutfhukI43xOC06Z4"
         }
       ],
       "services": {
@@ -40,7 +40,51 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "996915705559-drvas3tie4ga8ri06mvn2cgc56unpq11.apps.googleusercontent.com",
+              "client_id": "439494078668-ao505la2fn9dve89ifevlp34ak0bncr3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439494078668:android:edf692a3b03e927c",
+        "android_client_info": {
+          "package_name": "com.simx.riskiprojects"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439494078668-db6ve70md0grim3524npm640d0rku150.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.simx.riskiprojects",
+            "certificate_hash": "cf161c8341fb55b826b0af352c8500848c4ae76f"
+          }
+        },
+        {
+          "client_id": "439494078668-ao505la2fn9dve89ifevlp34ak0bncr3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_U9LxabwJPHgy3dPutfhukI43xOC06Z4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439494078668-ao505la2fn9dve89ifevlp34ak0bncr3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
