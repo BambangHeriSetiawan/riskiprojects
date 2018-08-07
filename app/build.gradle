@@ -4,7 +4,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.simx.dagger2starter"
+        applicationId "com.simx.riskiprojects"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.compileSdkVersion
         versionCode 1
@@ -24,6 +24,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "projects-${variant.buildType.name}-beta-${variant.versionName}.${variant.versionCode}.apk";
         }
     }
 }
@@ -58,6 +63,8 @@ dependencies {
     //Butterknife
     implementation 'com.jakewharton:butterknife:' + rootProject.ext.butterVer
     implementation 'com.google.firebase:firebase-firestore:17.0.4'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
     kapt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.butterVer
 
     //Glide

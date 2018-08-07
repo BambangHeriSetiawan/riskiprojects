@@ -1,4 +1,4 @@
-package com.simx.riskiprojects.di.module;
+package com.simx.riskiprojects.ui.main;
 
 
 import com.simx.riskiprojects.ui.main.MainActivity;
