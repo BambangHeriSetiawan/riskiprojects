@@ -8,45 +8,47 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.simx.riskiprojects.R;
+import com.simx.riskiprojects.data.model.ResponseSample;
 
-public class TrackerMapsActivity extends FragmentActivity implements OnMapReadyCallback, TrackerMapPresenter {
+public class TrackerMapsActivity extends FragmentActivity implements TrackerMapPresenter {
 
 	private GoogleMap mMap;
 
-	public static void start(Context context, String place_id) {
+	public static void start(Context context, ResponseSample responseSample) {
 	    Intent starter = new Intent(context, TrackerMapsActivity.class);
-	    starter.putExtra("id",place_id);
+	    starter.putExtra("id",responseSample);
 	    context.startActivity(starter);
 	}
+	private ResponseSample responseSample;
+	private SupportMapFragment mapFragment;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_maps);
 		// Obtain the SupportMapFragment and get notified when the map is ready to be used.
-		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(
+		mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(
 				R.id.map);
-		mapFragment.getMapAsync(this);
+		responseSample = getIntent().getExtras().getParcelable("id");
+		if (responseSample!=null)initMap(responseSample);
+
+	}
+
+	private void initMap(ResponseSample responseSample) {
+		mapFragment.getMapAsync(googleMap -> {
+			mMap = googleMap;
+
+			LatLng latLng = new LatLng(Double.parseDouble(responseSample.getLatitude()), Double.parseDouble(responseSample.getLongitude()));
+			mMap.addMarker(new MarkerOptions().position(latLng).title(responseSample.getNama()));
+			mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+			mMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+					CameraPosition.fromLatLngZoom(latLng,14)));
+			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+		});
 	}
 
 
-	/**
-	 * Manipulates the map once available. This callback is triggered when the map is ready to be
-	 * used. This is where we can add markers or lines, add listeners or move the camera. In this
-	 * case, we just add a marker near Sydney, Australia. If Google Play services is not installed
-	 * on the device, the user will be prompted to install it inside the SupportMapFragment. This
-	 * method will only be triggered once the user has installed Google Play services and returned
-	 * to the app.
-	 */
-	@Override
-	public void onMapReady(GoogleMap googleMap) {
-		mMap = googleMap;
-
-		// Add a marker in Sydney and move the camera
-		LatLng sydney = new LatLng(-34, 151);
-		mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-		mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-	}
 }

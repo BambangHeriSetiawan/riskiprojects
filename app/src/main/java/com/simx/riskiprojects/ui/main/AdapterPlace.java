@@ -12,6 +12,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.simx.riskiprojects.R;
+import com.simx.riskiprojects.data.model.ResponseSample;
 import com.simx.riskiprojects.data.model.ResultsItem;
 import com.simx.riskiprojects.di.module.GlideApp;
 import com.simx.riskiprojects.helper.AppConst;
@@ -26,7 +27,7 @@ import java.util.List;
 public class AdapterPlace extends Adapter<Holder> {
 
 
-	private List<ResultsItem> resultsItems;
+	private List<ResponseSample> resultsItems;
 	private Context context;
 	private PlacesPresenter presenter;
 
@@ -44,18 +45,11 @@ public class AdapterPlace extends Adapter<Holder> {
 
 	@Override
 	public void onBindViewHolder(@NonNull Holder holder, int position) {
-		ResultsItem resultsItem = getResuls(position);
-		if (resultsItem.getPhotos()!=null && resultsItem.getPhotos().size()!=0) {
-			GlideApp.with(context)
-					.load(AppConst.createUrlFoto(resultsItem.getPhotos().get(0).getPhotoReference()))
-					.error(R.mipmap.ic_launcher)
-					.disallowHardwareConfig()
-					.centerCrop()
-					.into(holder.img);
-		}
-		holder.tvName.setText(resultsItem.getName());
-		holder.tvAlamat.setText(resultsItem.getVicinity());
-		holder.itemView.setOnClickListener(v -> presenter.showDetail(resultsItem.getPlaceId()));
+		ResponseSample resultsItem = getResuls(position);
+
+		holder.tvName.setText(resultsItem.getNama());
+		holder.tvAlamat.setText(resultsItem.getAlamat());
+		holder.itemView.setOnClickListener(v -> presenter.showDetail(resultsItem));
 	}
 
 	@Override
@@ -63,11 +57,11 @@ public class AdapterPlace extends Adapter<Holder> {
 		return resultsItems.size();
 	}
 
-	private ResultsItem getResuls(int pos) {
+	private ResponseSample getResuls(int pos) {
 		return resultsItems.get(pos);
 	}
 
-	public void setResultsItems(List<ResultsItem> resultsItems) {
+	public void setResultsItems(List<ResponseSample> resultsItems) {
 		this.resultsItems = resultsItems;
 		notifyDataSetChanged();
 	}

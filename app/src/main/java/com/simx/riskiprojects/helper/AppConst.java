@@ -14,6 +14,8 @@ public class AppConst {
     public static final int RC_LOCATION = 234;
     public static final int DATA_ENABLE_REQUEST= 456;
     public static final int RC_NETWORK = 345;
+    public static final int RC_PLACE_AUTO = 456;
+
     public static final int RADIUS = 5000;
     public static final String KEY_HOSPITAL = "rimah sakit";
     public static final String KEY_PUSKESMAS = "puskesmas";

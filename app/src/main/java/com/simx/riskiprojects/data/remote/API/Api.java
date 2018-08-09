@@ -3,7 +3,9 @@ package com.simx.riskiprojects.data.remote.API;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.simx.riskiprojects.BuildConfig;
 import com.simx.riskiprojects.data.model.ResponsePlace;
+import com.simx.riskiprojects.data.model.ResponseSample;
 import io.reactivex.Observable;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -34,7 +36,9 @@ public interface Api {
 			@Query("radius") int radius,
 			@Query("location") String location
 	);
-
+	@Headers({"Accept: application/json", "Content-type: application/json"})
+	@GET("rs.json")
+	Observable<List<ResponseSample>> getAll();
 
 	class Factory {
 		private static Retrofit retrofit = null;

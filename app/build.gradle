@@ -11,6 +11,7 @@ android {
         versionCode 2
         versionName "1.0"
         buildConfigField 'String', 'BASE_URL', '"https://maps.googleapis.com/maps/api/"'
+        buildConfigField 'String', 'BASE_URL_GITHUB', '"https://bambangherisetiawan.github.io/json/"'
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -69,8 +70,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-places:15.0.1'
     kapt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.butterVer
     implementation 'com.google.maps.android:android-maps-utils:0.5+'
+    implementation 'com.koalap:geofirestore-android:1.0.1'
     //Glide
     implementation 'com.github.bumptech.glide:glide:' + rootProject.ext.glideVer
     kapt 'com.github.bumptech.glide:compiler:' + rootProject.ext.glideVer

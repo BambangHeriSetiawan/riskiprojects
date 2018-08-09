@@ -7,6 +7,8 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.simx.riskiprojects.di.component.DaggerAppComponent;
 import com.simx.riskiprojects.di.module.GlideAppModules;
 import com.simx.riskiprojects.di.module.NetModule;
@@ -31,6 +33,7 @@ public class MyApplication extends Application implements HasActivityInjector{
 
     @Inject Fabric fabric;
     private static Context context;
+    private static FirebaseFirestore firestore;
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -48,6 +51,11 @@ public class MyApplication extends Application implements HasActivityInjector{
         DaggerAppComponent.builder().application(this).net(new NetModule()).glide(new GlideAppModules()).build().inject(this);
         CalligraphyConfig.initDefault(mCalligraphyConfig);
         Fabric.with(fabric);
+        firestore = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build();
+        firestore.setFirestoreSettings(settings);
     }
 
     @Override
@@ -57,5 +65,9 @@ public class MyApplication extends Application implements HasActivityInjector{
 
     public static Context getContext() {
         return context;
+    }
+
+    public static FirebaseFirestore getFirestore() {
+        return firestore;
     }
 }
