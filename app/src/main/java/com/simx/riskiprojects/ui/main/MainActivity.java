@@ -1,6 +1,5 @@
 package com.simx.riskiprojects.ui.main;
 
-import android.Manifest.permission;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -34,14 +33,9 @@ import com.simx.riskiprojects.di.base.BaseActivitySuppotFragment;
 import com.simx.riskiprojects.helper.AppConst;
 import com.simx.riskiprojects.helper.RoundedImageView;
 
-import com.simx.riskiprojects.helper.preference.LocationPreferences;
-import com.simx.riskiprojects.helper.preference.PrefKey;
 import com.simx.riskiprojects.service.LocationFetchService;
 import com.simx.riskiprojects.ui.main.home.HomeFragment;
-import com.simx.riskiprojects.ui.main.klinik.KlinikFragment;
-import com.simx.riskiprojects.ui.main.pks.PuskesmasFragment;
-import com.simx.riskiprojects.ui.main.rs.RSFragment;
-import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.simx.riskiprojects.ui.main.places.PlacesFragment;
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -157,13 +151,13 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
                     loadFragment(HomeFragment.newInstance());
                     return true;
                 case R.id.nav_rumah_sakit:
-                    loadFragment(RSFragment.newInstance());
+                    loadFragment(PlacesFragment.newInstance("rumah sakit"));
                     return true;
                 case R.id.nav_puskesmas:
-                    loadFragment(PuskesmasFragment.newInstance());
+                    loadFragment(PlacesFragment.newInstance("puskesmas"));
                     return true;
                 case R.id.nav_klinik:
-                    loadFragment(KlinikFragment.newInstance());
+                    loadFragment(PlacesFragment.newInstance("klinik"));
                     return true;
                 case R.id.navItemAbout:
                     return true;

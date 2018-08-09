@@ -29,6 +29,7 @@ import com.google.maps.android.ui.IconGenerator;
 import com.simx.riskiprojects.R;
 import com.simx.riskiprojects.data.model.ResultsItem;
 import com.simx.riskiprojects.di.base.BaseFragment;
+import com.simx.riskiprojects.helper.ProgresUtils;
 import com.simx.riskiprojects.helper.preference.LocationPreferences;
 import com.simx.riskiprojects.helper.preference.PrefKey;
 import java.io.IOException;
@@ -130,4 +131,10 @@ public class HomeFragment extends BaseFragment implements HomePresenter {
 		return BitmapDescriptorFactory.fromBitmap(bitmap);
 	}
 
+	@Override
+	public void showLoading(boolean isshow) {
+		if (isshow)
+			ProgresUtils.getInstance().showLodingDialog(getActivity());
+				else ProgresUtils.getInstance().dismisDialog();
+	}
 }

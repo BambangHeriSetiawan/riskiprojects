@@ -8,7 +8,7 @@ android {
         applicationId "com.simx.riskiprojects"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.compileSdkVersion
-        versionCode 1
+        versionCode 2
         versionName "1.0"
         buildConfigField 'String', 'BASE_URL', '"https://maps.googleapis.com/maps/api/"'
         vectorDrawables.useSupportLibrary = true
@@ -67,7 +67,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:' + rootProject.ext.butterVer
     implementation 'com.google.firebase:firebase-firestore:17.0.4'
     implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     kapt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.butterVer
     implementation 'com.google.maps.android:android-maps-utils:0.5+'

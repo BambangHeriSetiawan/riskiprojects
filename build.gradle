@@ -40,7 +40,7 @@ ext {
     archComponentVersion = "1.0.0-alpha3"
 
     butterVer = '8.8.1'
-    glideVer = '4.5.0'
+    glideVer = '4.7.1'
 
     firebaseVer = '11.8.0'
     firebaseUiVer = '3.2.1'

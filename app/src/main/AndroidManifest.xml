@@ -44,7 +44,7 @@
           android:value="@string/google_maps_key"/>
 
         <activity
-          android:name=".ui.tracert.MapsActivity"
+          android:name=".ui.Tracker.TrackerMapsActivity"
           android:label="@string/title_activity_maps">
         </activity>
         <service android:name=".service.LocationFetchService"/>

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import com.crashlytics.android.Crashlytics;
 import com.simx.riskiprojects.di.component.DaggerAppComponent;
+import com.simx.riskiprojects.di.module.GlideAppModules;
 import com.simx.riskiprojects.di.module.NetModule;
 import io.fabric.sdk.android.Fabric;
 import javax.inject.Inject;
@@ -44,7 +45,7 @@ public class MyApplication extends Application implements HasActivityInjector{
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-        DaggerAppComponent.builder().application(this).net(new NetModule()).build().inject(this);
+        DaggerAppComponent.builder().application(this).net(new NetModule()).glide(new GlideAppModules()).build().inject(this);
         CalligraphyConfig.initDefault(mCalligraphyConfig);
         Fabric.with(fabric);
     }

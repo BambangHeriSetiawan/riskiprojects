@@ -5,6 +5,7 @@ import android.app.Application;
 import com.simx.riskiprojects.MyApplication;
 import com.simx.riskiprojects.di.module.ActivityBuilder;
 import com.simx.riskiprojects.di.module.AppModule;
+import com.simx.riskiprojects.di.module.GlideAppModules;
 import com.simx.riskiprojects.di.module.NetModule;
 
 
@@ -22,7 +23,7 @@ import dagger.android.AndroidInjectionModule;
         AndroidInjectionModule.class,
         AppModule.class,
         ActivityBuilder.class,
-        NetModule.class
+        NetModule.class, GlideAppModules.class
 })
 public interface AppComponent  {
 
@@ -32,6 +33,7 @@ public interface AppComponent  {
         @BindsInstance Builder application(Application application);
         AppComponent build();
         Builder net(NetModule netModule);
+        Builder glide(GlideAppModules glideAppModules);
     }
 
     void inject(MyApplication application);

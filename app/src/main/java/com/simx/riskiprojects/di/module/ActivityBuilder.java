@@ -1,5 +1,7 @@
 package com.simx.riskiprojects.di.module;
 
+import com.simx.riskiprojects.ui.Tracker.TrackerMapModule;
+import com.simx.riskiprojects.ui.Tracker.TrackerMapsActivity;
 import com.simx.riskiprojects.ui.main.MainActivity;
 import com.simx.riskiprojects.ui.main.MainActivityModul;
 import com.simx.riskiprojects.ui.main.MainActivityProvideModule;
@@ -14,13 +16,11 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ActivityBuilder {
 
-
-
     @ContributesAndroidInjector(modules = SplashActivityModule.class)
     abstract SplashActivity splashActivity();
-
 
     @ContributesAndroidInjector(modules = {MainActivityModul.class, MainActivityProvideModule.class})
     abstract MainActivity mainActivity();
 
+    @ContributesAndroidInjector(modules = TrackerMapModule.class) abstract TrackerMapsActivity trackerMapsActivity();
 }

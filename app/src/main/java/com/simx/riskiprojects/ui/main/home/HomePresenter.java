@@ -9,4 +9,6 @@ public interface HomePresenter {
 	void initMarkerToMap(List<ResultsItem> results);
 
 	void showError(String error_message);
+
+	void showLoading(boolean isshow);
 }

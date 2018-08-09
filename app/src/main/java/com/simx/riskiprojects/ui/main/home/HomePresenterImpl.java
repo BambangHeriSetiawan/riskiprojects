@@ -16,12 +16,13 @@ public class HomePresenterImpl {
 	}
 	@SuppressLint("CheckResult")
 	public void getData() {
+		presenter.showLoading(true);
 		ApiRequset.getall(LocationPreferences.instance().read(PrefKey.USER_LATLNG,String.class)).subscribe(
 				responsePlace -> {
 					if (responsePlace.getResults().size()!=0) presenter.initMarkerToMap(responsePlace.getResults());
 						else presenter.showError(responsePlace.getError_message());
 				},throwable -> Log.e("MainActivity", "onCreate: " + throwable.getMessage())
-				,() -> Log.e("MainPresenterImpl", "getData: " )
+				,() -> presenter.showLoading(false)
 		);
 	}
 }

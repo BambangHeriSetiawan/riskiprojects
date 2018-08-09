@@ -1,4 +1,6 @@
-package com.simx.riskiprojects.ui.tracert;
+package com.simx.riskiprojects.ui.Tracker;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -10,10 +12,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.simx.riskiprojects.R;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class TrackerMapsActivity extends FragmentActivity implements OnMapReadyCallback, TrackerMapPresenter {
 
 	private GoogleMap mMap;
 
+	public static void start(Context context, String place_id) {
+	    Intent starter = new Intent(context, TrackerMapsActivity.class);
+	    starter.putExtra("id",place_id);
+	    context.startActivity(starter);
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
