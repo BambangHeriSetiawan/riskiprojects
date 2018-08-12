@@ -17,9 +17,5 @@ public class ApiRequset {
 				.observeOn(AndroidSchedulers.mainThread());
 
 	}
-	public static Observable<ResponsePlace> getall(String location){
-		return Api.Factory.create().getAll("AIzaSyBW81faw8grMBm972NxliQ7fKjAzRTKmdw",AppConst.KEY_TYPE, AppConst.RADIUS,location) .subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread());
 
-	}
 }

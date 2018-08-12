@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.simx.riskiprojects.BuildConfig;
 import com.simx.riskiprojects.data.model.ResponsePlace;
 import com.simx.riskiprojects.data.model.ResponseSample;
+import com.simx.riskiprojects.data.model.waypoint.ResponseWaypoint;
 import io.reactivex.Observable;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -34,8 +35,22 @@ public interface Api {
 			@Query("key") String key,
 			@Query("type") String type,
 			@Query("radius") int radius,
-			@Query("location") String location
+			@Query("mode") int mode,
+			@Query("sensor") String sensor
 	);
+
+
+	@Headers({"Accept: application/json", "Content-type: application/json"})
+	@GET("directions/json")
+	Observable<ResponseWaypoint> getPolyline(
+			@Query("key") String key,
+			@Query("origin") String origin,
+			@Query("destination") String destination,
+			@Query("alternatives") String alternatives,
+			@Query("mode") String mode,
+			@Query("sensor") String sensor
+	);
+
 	@Headers({"Accept: application/json", "Content-type: application/json"})
 	@GET("rs.json")
 	Observable<List<ResponseSample>> getAll();
@@ -51,7 +66,7 @@ public interface Api {
 		}
 		public static Retrofit getRetrofitConfig() {
 			return new Retrofit.Builder()
-					.baseUrl(BuildConfig.BASE_URL_GITHUB)
+					.baseUrl(BuildConfig.BASE_URL)
 					.addConverterFactory(GsonConverterFactory.create())
 					.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 					.client(client())
