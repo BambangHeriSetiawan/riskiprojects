@@ -27,8 +27,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 import com.simx.riskiprojects.R;
+import com.simx.riskiprojects.data.model.ResponseSample;
 import com.simx.riskiprojects.data.model.ResultsItem;
 import com.simx.riskiprojects.di.base.BaseFragment;
+import com.simx.riskiprojects.helper.AppConst;
 import com.simx.riskiprojects.helper.ProgresUtils;
 import com.simx.riskiprojects.helper.preference.LocationPreferences;
 import com.simx.riskiprojects.helper.preference.PrefKey;
@@ -86,15 +88,12 @@ public class HomeFragment extends BaseFragment implements HomePresenter {
 
 	@Override
 	public void initMarkerToMap(List<ResultsItem> results) {
-		Log.e("HomeFragment", "initMarkerToMap: " + results.toString());
 		for (int i = 0; i < results.size(); i++) {
-			/*addIcon(new LatLng(results.get(i).getGeometry().getLocation().getLat(),results.get(i).getGeometry().getLocation().getLat()),results.get(i).getName());*/
 			createMarker(
 					results.get(i).getGeometry().getLocation().getLat(),
 					results.get(i).getGeometry().getLocation().getLng(),
 					results.get(i).getName(),
-					results.get(i).getVicinity(),
-					results.get(i).getIcon()
+					results.get(i).getVicinity()
 			).showInfoWindow();
 		}
 	}
@@ -105,30 +104,23 @@ public class HomeFragment extends BaseFragment implements HomePresenter {
 	}
 
 
-	protected Marker createMarker(double latitude, double longitude, String title, String snippet, String path_icon) {
-		Log.e("HomeFragment", "createMarker: " + title);
-		/*return mMap.addMarker(new MarkerOptions()
-				.position(new LatLng(latitude, longitude))
-				.anchor(0.5f, 0.5f)
-				.title(title)
-				.snippet(snippet)
-				.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_add_location)));*/
+	protected Marker createMarker(double latitude, double longitude, String title, String jenis) {
 		MarkerOptions markerOptions = new MarkerOptions();
+		switch (jenis) {
+			case "rumah_sakit":
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerRed(getContext(),R.drawable.ic_location_on_red_24dp)).snippet(jenis);
+				break;
+			case "puskesmas":
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerGreen(getContext(),R.drawable.ic_location_on_green_24dp)).snippet(jenis);
+				break;
+			case "klinik":
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerBlue(getContext(),R.drawable.ic_location_on_blue_24dp)).snippet(jenis);
+				break;
+			default:
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerRed(getContext(),R.drawable.ic_location_on_red_24dp)).snippet(jenis);
+		}
 		//markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(bitmapDescriptorFromVector(getContext(),R.drawable.ic_add_location)).snippet(snippet);
-		markerOptions.position(new LatLng(latitude,longitude)).title(title).snippet(snippet);
 		return mMap.addMarker(markerOptions);
-	}
-	private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
-		Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_add_location);
-		background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
-		Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
-		vectorDrawable.setBounds(80, 40, vectorDrawable.getIntrinsicWidth() + 80, vectorDrawable.getIntrinsicHeight() + 40);
-		Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-		//Bitmap bitmap = Bitmap.createBitmap(150, 150, Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(bitmap);
-		background.draw(canvas);
-		vectorDrawable.draw(canvas);
-		return BitmapDescriptorFactory.fromBitmap(bitmap);
 	}
 
 	@Override
@@ -136,5 +128,15 @@ public class HomeFragment extends BaseFragment implements HomePresenter {
 		if (isshow)
 			ProgresUtils.getInstance().showLodingDialog(getActivity());
 				else ProgresUtils.getInstance().dismisDialog();
+	}
+
+	@Override
+	public void createMarkerInMap(ResponseSample responseSample) {
+		createMarker(
+				Double.parseDouble(responseSample.getLatitude()),
+				Double.parseDouble(responseSample.getLongitude()),
+				responseSample.getNama(),
+				responseSample.getTipe()
+		).showInfoWindow();
 	}
 }

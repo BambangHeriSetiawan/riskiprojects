@@ -72,7 +72,7 @@ public class LocationFetchService extends Service implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Log.e("LocationFetchService", "onLocationChanged: " + location.toString());
+
 		LocationPreferences.instance().write(PrefKey.USER_LAT,String.valueOf(location.getLatitude()),String.class);
 		LocationPreferences.instance().write(PrefKey.USER_LNG,String.valueOf(location.getLongitude()),String.class);
 		String latlng = location.getLatitude() +","+ location.getLongitude();
@@ -81,17 +81,17 @@ public class LocationFetchService extends Service implements LocationListener {
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Log.e("LocationFetchService", "onStatusChanged: " + provider);
+
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		Log.e("LocationFetchService", "onProviderEnabled: " + provider);
+
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		Log.e("LocationFetchService", "onProviderDisabled: " + provider);
+
 		showGPSDiabledDialog();
 	}
 	public void showGPSDiabledDialog() {

@@ -41,9 +41,6 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete.IntentBuilder;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.koalap.geofirestore.GeoFire;
-import com.koalap.geofirestore.GeoLocation;
 import com.simx.riskiprojects.BuildConfig;
 import com.simx.riskiprojects.R;
 import com.simx.riskiprojects.data.model.ResponseSample;
@@ -83,7 +80,6 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 	RecyclerView rcvSample;
 	private FirebaseFirestore db;
 	private CollectionReference colRef;
-	private CollectionReference colGeofire;
 
 	private AlertDialog mInternetDialog;
 	private AlertDialog mGPSDialog;
@@ -133,7 +129,7 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 		rcvSample.setAdapter(adapterSample);
 		db = FirebaseFirestore.getInstance();
 		colRef = db.collection("DATA_PROJECTS");
-		colGeofire = db.collection("geofire");
+		//colGeofire = new GeoFire(colRef);
 	}
 
 	private void iniUI() {
@@ -195,7 +191,7 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 					loadFragment(PlacesFragment.newInstance("klinik"));
 					return true;
 				case R.id.navItemAbout:
-					//getDummyData();
+					getDummyData();
 					return true;
 				default:
 					return false;
@@ -316,8 +312,8 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 			colRef.add(responseSamples.get(i)).addOnCompleteListener(task -> {
 				Log.e("MainActivity", "pushToFirestore: " + task.getResult().getId());
 				ProgresUtils.getInstance().dismisDialog();
-				/*pushGeoFire(responseSamples.get(finalI).getLatitude(),
-						responseSamples.get(finalI).getLongitude(), task.getResult().getId());*/
+				pushGeoFire(responseSamples.get(finalI).getLatitude(),
+						responseSamples.get(finalI).getLongitude(), task.getResult().getId());
 			}).addOnSuccessListener(documentReference -> {
 				Log.e("MainActivity", "pushToFirestore: " + documentReference.getId());
 			}).addOnFailureListener(e -> {
@@ -350,14 +346,5 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 
 	private void pushGeoFire(String lat, String lng, String key) {
 
-		GeoFire geoFire = new GeoFire(colGeofire);
-		if (lat != null && lng != null && key != null){
-			geoFire.setLocation(key,
-					new GeoLocation(Double.parseDouble(lat), Double.parseDouble(lng)),
-					(key1, exception) -> {
-						Log.e("MainActivity", "pushGeoFire: " + key);
-					});
-
-		}
 	}
 }

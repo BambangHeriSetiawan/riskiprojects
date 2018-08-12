@@ -51,7 +51,7 @@ public interface Api {
 		}
 		public static Retrofit getRetrofitConfig() {
 			return new Retrofit.Builder()
-					.baseUrl(BuildConfig.BASE_URL)
+					.baseUrl(BuildConfig.BASE_URL_GITHUB)
 					.addConverterFactory(GsonConverterFactory.create())
 					.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 					.client(client())

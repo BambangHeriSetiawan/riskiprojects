@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.simx.riskiprojects.R;
 import com.simx.riskiprojects.data.model.ResponseSample;
+import com.simx.riskiprojects.helper.AppConst;
 
 public class TrackerMapsActivity extends FragmentActivity implements TrackerMapPresenter {
 
@@ -40,13 +41,33 @@ public class TrackerMapsActivity extends FragmentActivity implements TrackerMapP
 	private void initMap(ResponseSample responseSample) {
 		mapFragment.getMapAsync(googleMap -> {
 			mMap = googleMap;
-
 			LatLng latLng = new LatLng(Double.parseDouble(responseSample.getLatitude()), Double.parseDouble(responseSample.getLongitude()));
-			mMap.addMarker(new MarkerOptions().position(latLng).title(responseSample.getNama()));
 			mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 			mMap.animateCamera(CameraUpdateFactory.newCameraPosition(
 					CameraPosition.fromLatLngZoom(latLng,14)));
 			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+			MarkerOptions markerOptions = new MarkerOptions();
+
+			switch (responseSample.getTipe()) {
+				case "rumah_sakit":
+					markerOptions.position(new LatLng(Double.parseDouble(responseSample.getLatitude()),Double.parseDouble(responseSample.getLongitude()))).title(responseSample.getNama()).icon(
+							AppConst.createMarkerRed(this,R.drawable.ic_location_on_red_24dp)).snippet(responseSample.getAlamat());
+					break;
+				case "puskesmas":
+					markerOptions.position(new LatLng(Double.parseDouble(responseSample.getLatitude()),Double.parseDouble(responseSample.getLongitude()))).title(responseSample.getNama()).icon(
+							AppConst.createMarkerGreen(this,R.drawable.ic_location_on_green_24dp)).snippet(responseSample.getAlamat());
+					break;
+				case "klinik":
+					markerOptions.position(new LatLng(Double.parseDouble(responseSample.getLatitude()),Double.parseDouble(responseSample.getLongitude()))).title(responseSample.getNama()).icon(
+							AppConst.createMarkerBlue(this,R.drawable.ic_location_on_blue_24dp)).snippet(responseSample.getAlamat());
+					break;
+				default:
+					markerOptions.position(new LatLng(Double.parseDouble(responseSample.getLatitude()),Double.parseDouble(responseSample.getLongitude()))).title(responseSample.getNama()).icon(
+							AppConst.createMarkerRed(this,R.drawable.ic_location_on_red_24dp)).snippet(responseSample.getAlamat());
+			}
+
+
+			mMap.addMarker(markerOptions);
 		});
 	}
 
