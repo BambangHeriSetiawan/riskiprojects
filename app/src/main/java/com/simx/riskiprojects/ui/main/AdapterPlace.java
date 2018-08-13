@@ -59,7 +59,7 @@ public class AdapterPlace extends Adapter<Holder> {
 		holder.tvName.setText(resultsItem.getNama());
 		holder.tvPimpinan.setText("Pimpinan : "+resultsItem.getPimpinan());
 		holder.tvAlamat.setText("Alamat : "+resultsItem.getAlamat());
-		holder.tvTelp.setText("Phone : "+resultsItem.getTelpon()+" / "+String.valueOf(resultsItem.getDisctance()).substring(0,4)+" Meter");
+		holder.tvTelp.setText("Phone : "+resultsItem.getTelpon()+" / "+String.valueOf(resultsItem.getDisctance()).substring(0,4)+" Km");
 		holder.itemView.setOnClickListener(v -> presenter.showDetail(resultsItem));
 	}
 
