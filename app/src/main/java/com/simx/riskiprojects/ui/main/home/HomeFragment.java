@@ -108,16 +108,16 @@ public class HomeFragment extends BaseFragment implements HomePresenter {
 		MarkerOptions markerOptions = new MarkerOptions();
 		switch (jenis) {
 			case "rumah_sakit":
-				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerRed(getContext(),R.drawable.ic_location_on_red_24dp)).snippet(jenis);
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerRed(getContext(),R.drawable.ic_location_on_red_900_24dp)).snippet(jenis);
 				break;
 			case "puskesmas":
-				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerGreen(getContext(),R.drawable.ic_location_on_green_24dp)).snippet(jenis);
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerGreen(getContext(),R.drawable.ic_location_on_green_600_24dp)).snippet(jenis);
 				break;
 			case "klinik":
-				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerBlue(getContext(),R.drawable.ic_location_on_blue_24dp)).snippet(jenis);
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerBlue(getContext(),R.drawable.ic_location_on_blue_900_24dp)).snippet(jenis);
 				break;
 			default:
-				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerRed(getContext(),R.drawable.ic_location_on_red_24dp)).snippet(jenis);
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerRed(getContext(),R.drawable.ic_location_on_red_900_24dp)).snippet(jenis);
 		}
 		//markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(bitmapDescriptorFromVector(getContext(),R.drawable.ic_add_location)).snippet(snippet);
 		return mMap.addMarker(markerOptions);

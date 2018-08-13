@@ -1,6 +1,8 @@
 package com.simx.riskiprojects.ui.main.places;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +22,8 @@ import com.simx.riskiprojects.R;
 import com.simx.riskiprojects.data.model.ResponseSample;
 import com.simx.riskiprojects.di.base.BaseFragment;
 import com.simx.riskiprojects.helper.ProgresUtils;
+import com.simx.riskiprojects.helper.preference.LocationPreferences;
+import com.simx.riskiprojects.helper.preference.PrefKey;
 import com.simx.riskiprojects.ui.Tracker.TrackerMapsActivity;
 import com.simx.riskiprojects.ui.main.AdapterPlace;
 import java.util.List;
@@ -56,7 +60,6 @@ public class PlacesFragment extends BaseFragment implements PlacesPresenter {
 		View view = inflater.inflate(R.layout.rs_fragment, container, false);
 		unbinder = ButterKnife.bind(this, view);
 		String type = getArguments().getString("key");
-		Log.e("PlacesFragment", "onCreateView: " + type);
 		presenter.getPlaceRs(type);
 		return view;
 	}
@@ -95,6 +98,23 @@ public class PlacesFragment extends BaseFragment implements PlacesPresenter {
 
 	@Override
 	public void showDetail(ResponseSample responseSample) {
-		TrackerMapsActivity.start(getContext(), responseSample);
+		//TrackerMapsActivity.start(getContext(), responseSample);
+		openDirectionInMap(responseSample);
 	}
+
+	private void openDirectionInMap(ResponseSample responseSample) {
+		Uri.Builder builder = new Uri.Builder();
+		builder.scheme("https")
+				.authority("www.google.com").appendPath("maps").appendPath("dir").appendPath("")
+				.appendQueryParameter("api", "1")
+				.appendQueryParameter("mode", "driving")
+				.appendQueryParameter("origin", LocationPreferences.instance().read(PrefKey.USER_LAT,String.class) + "," + LocationPreferences.instance().read(PrefKey.USER_LNG,String.class))
+				.appendQueryParameter("destination", responseSample.getLatitude() + "," + responseSample.getLongitude());
+		String url = builder.build().toString();
+		Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setData(Uri.parse(url));
+		i.setPackage("com.google.android.apps.maps");
+		startActivity(i);
+	}
+
 }

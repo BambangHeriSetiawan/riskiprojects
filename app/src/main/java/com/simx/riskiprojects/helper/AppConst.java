@@ -36,7 +36,7 @@ public class AppConst {
     public static String URL_MAP_PHOTO_REF = "photoreference=";
 
     public static BitmapDescriptor createMarkerGreen(Context context, @DrawableRes int vectorDrawableResourceId) {
-        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_location_on_green_24dp);
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_location_on_green_600_24dp);
         background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
         vectorDrawable.setBounds(80, 40, vectorDrawable.getIntrinsicWidth() + 80, vectorDrawable.getIntrinsicHeight() + 40);
@@ -48,7 +48,7 @@ public class AppConst {
     }
 
     public static BitmapDescriptor createMarkerBlue(Context context, @DrawableRes int vectorDrawableResourceId) {
-        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_location_on_blue_24dp);
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_location_on_blue_900_24dp);
         background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
         vectorDrawable.setBounds(80, 40, vectorDrawable.getIntrinsicWidth() + 80, vectorDrawable.getIntrinsicHeight() + 40);
@@ -59,7 +59,7 @@ public class AppConst {
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
     public static BitmapDescriptor createMarkerRed(Context context, @DrawableRes int vectorDrawableResourceId) {
-        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_location_on_red_24dp);
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_location_on_red_900_24dp);
         background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
         vectorDrawable.setBounds(80, 40, vectorDrawable.getIntrinsicWidth() + 80, vectorDrawable.getIntrinsicHeight() + 40);

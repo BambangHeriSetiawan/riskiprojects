@@ -10,6 +10,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.simx.riskiprojects.MyApplication;
 import com.simx.riskiprojects.data.model.ResponseSample;
+import com.simx.riskiprojects.helper.preference.LocationPreferences;
+import com.simx.riskiprojects.helper.preference.PrefKey;
 import javax.annotation.Nullable;
 import org.imperiumlabs.geofirestore.GeoFirestore;
 import org.imperiumlabs.geofirestore.GeoQueryEventListener;
@@ -35,14 +37,9 @@ public class HomePresenterImpl {
 	@SuppressLint("CheckResult")
 	public void getData() {
 		presenter.showLoading(true);
-		/*ApiRequset.getall(LocationPreferences.instance().read(PrefKey.USER_LATLNG,String.class)).subscribe(
-				responsePlace -> {
-					if (responsePlace.getResults().size()!=0) presenter.initMarkerToMap(responsePlace.getResults());
-						else presenter.showError(responsePlace.getError_message());
-				},throwable -> Log.e("MainActivity", "onCreate: " + throwable.getMessage())
-				,() -> presenter.showLoading(false)
-		);*/
-		GeoPoint geoPoint = new GeoPoint(0.5128211,101.464679);
+		//GeoPoint geoPoint = new GeoPoint(0.5128211,101.464679);
+		GeoPoint geoPoint = new GeoPoint(Double.parseDouble(LocationPreferences.instance().read(PrefKey.USER_LAT,String.class)),
+				Double.parseDouble(LocationPreferences.instance().read(PrefKey.USER_LNG,String.class)));
 		geoFirestore.queryAtLocation(geoPoint,0.6).addGeoQueryEventListener(new GeoQueryEventListener() {
 			@Override
 			public void onKeyEntered(String s, GeoPoint geoPoint) {
@@ -62,20 +59,18 @@ public class HomePresenterImpl {
 
 			@Override
 			public void onGeoQueryReady() {
-				Log.e("HomePresenterImpl", "onGeoQueryReady: ");
 				presenter.showLoading(false);
 			}
 
 			@Override
 			public void onGeoQueryError(Exception e) {
-				Log.e("HomePresenterImpl", "onGeoQueryError: " + e.getMessage());
+				presenter.showError(e.getMessage());
 			}
 		});
 
 	}
 
 	private void getDataFromIdLocation(String key) {
-		Log.e("HomePresenterImpl", "getDataFromIdLocation: " + key);
 		reference.document(key).addSnapshotListener((documentSnapshot, e) -> {
 			if (documentSnapshot!=null){
 				ResponseSample responseSample  = documentSnapshot.toObject(ResponseSample.class);

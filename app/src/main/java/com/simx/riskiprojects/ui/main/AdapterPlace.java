@@ -13,9 +13,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.simx.riskiprojects.R;
 import com.simx.riskiprojects.data.model.ResponseSample;
-import com.simx.riskiprojects.data.model.ResultsItem;
-import com.simx.riskiprojects.di.module.GlideApp;
-import com.simx.riskiprojects.helper.AppConst;
 import com.simx.riskiprojects.ui.main.AdapterPlace.Holder;
 import com.simx.riskiprojects.ui.main.places.PlacesPresenter;
 import java.util.ArrayList;
@@ -25,6 +22,7 @@ import java.util.List;
  * User: simx Date: 09/08/18 10:44
  */
 public class AdapterPlace extends Adapter<Holder> {
+
 
 
 	private List<ResponseSample> resultsItems;
@@ -46,9 +44,10 @@ public class AdapterPlace extends Adapter<Holder> {
 	@Override
 	public void onBindViewHolder(@NonNull Holder holder, int position) {
 		ResponseSample resultsItem = getResuls(position);
-
 		holder.tvName.setText(resultsItem.getNama());
-		holder.tvAlamat.setText(resultsItem.getAlamat());
+		holder.tvPimpinan.setText("Pimpinan : "+resultsItem.getPimpinan());
+		holder.tvAlamat.setText("Alamat : "+resultsItem.getAlamat());
+		holder.tvTelp.setText("Phone : "+resultsItem.getTelpon());
 		holder.itemView.setOnClickListener(v -> presenter.showDetail(resultsItem));
 	}
 
@@ -67,12 +66,16 @@ public class AdapterPlace extends Adapter<Holder> {
 	}
 
 	public class Holder extends ViewHolder {
-		@BindView(R.id.img)
-		ImageView img;
+
 		@BindView(R.id.tv_name)
 		TextView tvName;
+		@BindView(R.id.tv_pimpinan)
+		TextView tvPimpinan;
 		@BindView(R.id.tv_alamat)
 		TextView tvAlamat;
+		@BindView(R.id.tv_telp)
+		TextView tvTelp;
+
 		public Holder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
