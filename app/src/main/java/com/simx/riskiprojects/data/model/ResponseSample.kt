@@ -6,36 +6,38 @@ import com.google.gson.annotations.SerializedName
 
 data class ResponseSample(
 		@field:SerializedName("id")
-		val id: String? = null,
+		var id: String? = null,
 		@field:SerializedName("Alamat")
-		val alamat: String? = null,
+		var alamat: String? = null,
 
 		@field:SerializedName("Nama")
-		val nama: String? = null,
+		var nama: String? = null,
 
 		@field:SerializedName("Kelas")
-		val kelas: String? = null,
+		var kelas: String? = null,
 
 		@field:SerializedName("Rawat_Inap")
-		val rawatInap: String? = null,
+		var rawatInap: String? = null,
 
 		@field:SerializedName("Pimpinan")
-		val pimpinan: String? = null,
+		var pimpinan: String? = null,
 
 		@field:SerializedName("Latitude")
-		val latitude: String? = null,
+		var latitude: String? = null,
 
 		@field:SerializedName("Telpon")
-		val telpon: String? = null,
+		var telpon: String? = null,
 
 		@field:SerializedName("Longitude")
-		val longitude: String? = null,
+		var longitude: String? = null,
 
 		@field:SerializedName("Tipe")
-		val tipe: String? = null,
+		var tipe: String? = null,
 
 		@field:SerializedName("Jenis")
-		val jenis: String? = null
+		var jenis: String? = null,
+		@field:SerializedName("Distance")
+		var disctance: Double? = null
 ) : Parcelable {
 	constructor(source: Parcel) : this(
 			source.readString(),
@@ -74,4 +76,5 @@ data class ResponseSample(
 			override fun newArray(size: Int): Array<ResponseSample?> = arrayOfNulls(size)
 		}
 	}
+
 }

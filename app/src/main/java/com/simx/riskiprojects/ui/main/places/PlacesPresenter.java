@@ -13,4 +13,6 @@ public interface PlacesPresenter {
 	void showLoading(boolean isShow);
 
 	void showDetail(ResponseSample responseSample);
+
+	void getData();
 }

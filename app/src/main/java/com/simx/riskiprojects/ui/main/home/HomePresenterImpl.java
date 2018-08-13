@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.simx.riskiprojects.MyApplication;
 import com.simx.riskiprojects.data.model.ResponseSample;
+import com.simx.riskiprojects.helper.AppConst;
 import com.simx.riskiprojects.helper.preference.LocationPreferences;
 import com.simx.riskiprojects.helper.preference.PrefKey;
 import javax.annotation.Nullable;
@@ -26,7 +27,7 @@ public class HomePresenterImpl {
 	private GeoFirestore geoFirestore;
 	public HomePresenterImpl(HomePresenter presenter) {
 		this.presenter = presenter;
-		this.reference = MyApplication.getFirestore().collection("DATA_PROJECTS");
+		this.reference = MyApplication.getFirestore().collection(AppConst.COLLECTION_REF_REV);
 		this.geoFirestore = new GeoFirestore(reference);
 		/*this.geoFire = new GeoFire(referenceGeo);
 		this.geoQuery = this.geoFire.queryAtLocation(new GeoLocation(
@@ -37,10 +38,10 @@ public class HomePresenterImpl {
 	@SuppressLint("CheckResult")
 	public void getData() {
 		presenter.showLoading(true);
-		//GeoPoint geoPoint = new GeoPoint(0.5128211,101.464679);
+		/*GeoPoint geoPoint = new GeoPoint(0.5128211,101.464679);*/
 		GeoPoint geoPoint = new GeoPoint(Double.parseDouble(LocationPreferences.instance().read(PrefKey.USER_LAT,String.class)),
 				Double.parseDouble(LocationPreferences.instance().read(PrefKey.USER_LNG,String.class)));
-		geoFirestore.queryAtLocation(geoPoint,0.6).addGeoQueryEventListener(new GeoQueryEventListener() {
+		geoFirestore.queryAtLocation(geoPoint,6).addGeoQueryEventListener(new GeoQueryEventListener() {
 			@Override
 			public void onKeyEntered(String s, GeoPoint geoPoint) {
 				getDataFromIdLocation(s);
@@ -71,6 +72,7 @@ public class HomePresenterImpl {
 	}
 
 	private void getDataFromIdLocation(String key) {
+		Log.e("HomePresenterImpl", "getDataFromIdLocation: " + key);
 		reference.document(key).addSnapshotListener((documentSnapshot, e) -> {
 			if (documentSnapshot!=null){
 				ResponseSample responseSample  = documentSnapshot.toObject(ResponseSample.class);

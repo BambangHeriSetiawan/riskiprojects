@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.maps.android.ui.IconGenerator;
 import com.simx.riskiprojects.R;
 import com.simx.riskiprojects.data.model.ResponseSample;
@@ -73,6 +74,7 @@ public class HomeFragment extends BaseFragment implements HomePresenter {
 			mMap = googleMap;
 			mMap.setMyLocationEnabled(true);
 
+				LatLng llll = new LatLng(0.5128211,101.464679);
 			LatLng latLng = new LatLng(
 					Double.parseDouble(LocationPreferences.instance().read(PrefKey.USER_LAT, String.class)),
 					Double.parseDouble(LocationPreferences.instance().read(PrefKey.USER_LNG, String.class)));
@@ -80,22 +82,11 @@ public class HomeFragment extends BaseFragment implements HomePresenter {
 				mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 				mMap.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(latLng,14)));
 				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+
 			}
 			});
 		}
 		getChildFragmentManager ().beginTransaction ().replace (R.id.map, mapFragment).commit ();
-	}
-
-	@Override
-	public void initMarkerToMap(List<ResultsItem> results) {
-		for (int i = 0; i < results.size(); i++) {
-			createMarker(
-					results.get(i).getGeometry().getLocation().getLat(),
-					results.get(i).getGeometry().getLocation().getLng(),
-					results.get(i).getName(),
-					results.get(i).getVicinity()
-			).showInfoWindow();
-		}
 	}
 
 	@Override
@@ -104,22 +95,22 @@ public class HomeFragment extends BaseFragment implements HomePresenter {
 	}
 
 
-	protected Marker createMarker(double latitude, double longitude, String title, String jenis) {
+	protected Marker createMarker(double latitude, double longitude, String title, String jenis, String alamat) {
 		MarkerOptions markerOptions = new MarkerOptions();
 		switch (jenis) {
 			case "rumah_sakit":
-				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerRed(getContext(),R.drawable.ic_location_on_red_900_24dp)).snippet(jenis);
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerRed(getContext(),R.drawable.ic_location_on_red_900_24dp)).snippet(alamat);
 				break;
 			case "puskesmas":
-				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerGreen(getContext(),R.drawable.ic_location_on_green_600_24dp)).snippet(jenis);
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerGreen(getContext(),R.drawable.ic_location_on_green_600_24dp)).snippet(alamat);
 				break;
 			case "klinik":
-				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerBlue(getContext(),R.drawable.ic_location_on_blue_900_24dp)).snippet(jenis);
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerBlue(getContext(),R.drawable.ic_location_on_blue_900_24dp)).snippet(alamat);
 				break;
 			default:
-				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerRed(getContext(),R.drawable.ic_location_on_red_900_24dp)).snippet(jenis);
+				markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(AppConst.createMarkerRed(getContext(),R.drawable.ic_location_on_red_900_24dp)).snippet(alamat);
 		}
-		//markerOptions.position(new LatLng(latitude,longitude)).title(title).icon(bitmapDescriptorFromVector(getContext(),R.drawable.ic_add_location)).snippet(snippet);
+
 		return mMap.addMarker(markerOptions);
 	}
 
@@ -136,7 +127,8 @@ public class HomeFragment extends BaseFragment implements HomePresenter {
 				Double.parseDouble(responseSample.getLatitude()),
 				Double.parseDouble(responseSample.getLongitude()),
 				responseSample.getNama(),
-				responseSample.getTipe()
+				responseSample.getTipe(),
+				responseSample.getAlamat()
 		).showInfoWindow();
 	}
 }
