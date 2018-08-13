@@ -1,14 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.simx.riskiprojects"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.compileSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 7
+        versionName "1.2"
+        buildConfigField 'String', 'BASE_URL', '"https://maps.googleapis.com/maps/api/"'
+        buildConfigField 'String', 'BASE_URL_GITHUB', '"https://bambangherisetiawan.github.io/json/"'
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -40,7 +44,7 @@ dependencies {
     implementation 'com.android.support:design:' + rootProject.ext.googleVer
     implementation 'com.android.support:recyclerview-v7:' + rootProject.ext.googleVer
     implementation 'com.android.support:support-v4:' + rootProject.ext.googleVer
-
+    implementation 'com.android.support:multidex:1.0.3'
     // Because RxAndroid releases are few and far between, it is recommended you also
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     implementation 'io.reactivex.rxjava2:rxandroid:' + rootProject.ext.rxAndroidVer
@@ -64,9 +68,11 @@ dependencies {
     implementation 'com.jakewharton:butterknife:' + rootProject.ext.butterVer
     implementation 'com.google.firebase:firebase-firestore:17.0.4'
     implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-places:15.0.1'
     kapt 'com.jakewharton:butterknife-compiler:' + rootProject.ext.butterVer
-
+    implementation 'com.google.maps.android:android-maps-utils:0.5+'
     //Glide
     implementation 'com.github.bumptech.glide:glide:' + rootProject.ext.glideVer
     kapt 'com.github.bumptech.glide:compiler:' + rootProject.ext.glideVer
@@ -84,10 +90,11 @@ dependencies {
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
+    //noinspection GradleCompatible
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
+    implementation 'com.github.imperiumlabs:GeoFirestore-Android:v1.1.1'
 
 }
 apply plugin: 'com.google.gms.google-services'

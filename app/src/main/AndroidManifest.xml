@@ -10,6 +10,8 @@
            location permissions for the 'MyLocation' functionality.
       -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
       android:allowBackup="true"
@@ -42,9 +44,16 @@
           android:value="@string/google_maps_key"/>
 
         <activity
-          android:name=".ui.tracert.MapsActivity"
+          android:name=".ui.Tracker.TrackerMapsActivity"
           android:label="@string/title_activity_maps">
         </activity>
+        <service android:name=".service.LocationFetchService"/>
+        <receiver android:name=".broadcaster.BrodcastReciverGps">
+            <intent-filter>
+                <action android:name="android.intent.action.PROVIDER_CHANGED"/>
+              <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

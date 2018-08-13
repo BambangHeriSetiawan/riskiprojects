@@ -18,9 +18,10 @@
 
 
     <item
-        android:id="@+id/action_share"
-        android:icon="@drawable/avd_share"
-        android:title="@string/share"
+      android:visible="false"
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/search"
         app:showAsAction="always" />
 
 </menu>
