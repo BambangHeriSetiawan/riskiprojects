@@ -9,7 +9,7 @@ android {
         applicationId "com.simx.riskiprojects"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.compileSdkVersion
-        versionCode 9
+        versionCode 10
         versionName "1.2"
         buildConfigField 'String', 'BASE_URL', '"https://maps.googleapis.com/maps/api/"'
         buildConfigField 'String', 'BASE_URL_GITHUB', '"https://bambangherisetiawan.github.io/json/"'
