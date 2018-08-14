@@ -3,16 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@drawable/bg_design"
     android:orientation="vertical"
     android:padding="16dp">
+    <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+        <ImageView
+          android:src="@drawable/bg_header"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"/>
+    </FrameLayout>
     <com.simx.riskiprojects.helper.RoundedImageView
       android:visibility="gone"
         android:id="@+id/iv_profile_pic"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginTop="40dp"
-        android:scaleType="fitCenter"
+        android:scaleType="center"
         android:src="@mipmap/ic_launcher" />
 
     <TextView

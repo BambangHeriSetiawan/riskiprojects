@@ -20,6 +20,7 @@
     <style name="AppThemeFullScreen" parent="AppTheme">
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/white</item>
     </style>
 

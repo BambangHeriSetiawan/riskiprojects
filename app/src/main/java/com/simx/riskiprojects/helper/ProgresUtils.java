@@ -47,9 +47,9 @@ public class ProgresUtils {
 		textView.setText(msg);
 		dialog.show();
 	}
-	public  void showLodingDialogMsgBtn(Activity activity,String msg, DialogInterface.OnClickListener onClickListener){
+	public  void showLodingDialogMsgBtn(Activity activity,String msg){
 		dialog = new Dialog(activity);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setTitle("Find Near Hospital");
 		dialog.setContentView(R.layout.custom_dilog_message);
 		TextView textView = dialog.findViewById(R.id.tv_message);
 		textView.setText(msg);
