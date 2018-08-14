@@ -3,6 +3,8 @@ package com.simx.riskiprojects.ui.main;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.LocationManager;
@@ -197,12 +199,20 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 					return true;
 				case R.id.navItemAbout:
 					//getDummyData();
+					showDialogAbout();
 					return true;
 				default:
 					return false;
 			}
 		}
 	};
+
+	private void showDialogAbout() {
+		ProgresUtils.getInstance().showLodingDialogMsgBtn(this,
+				"Find Near Hospital adalah aplikasi yang memudahkan dalam mencari "
+						+ "tempat layanan kesehatan terdekat dan juga yang diinginkan yang "
+						+ "ada di kota Pekanbaru oleh penggunanya.\" By Riski Indra Hilman, from State Islamic University of Sultan Syarif Kasim Riau");
+	}
 
 
 	@Override
