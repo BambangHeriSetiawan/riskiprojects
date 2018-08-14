@@ -18,27 +18,27 @@
         <item
           android:id="@+id/nav_home"
           android:checked="true"
-          android:icon="@drawable/doctor"
+          android:icon="@drawable/home"
           android:title="Home" />
         <item
           android:id="@+id/nav_rumah_sakit"
           android:checked="true"
-          android:icon="@drawable/doctor"
+          android:icon="@drawable/rumah_sakit"
           android:title="Rumah Sakit" />
         <item
           android:id="@+id/nav_puskesmas"
           android:checked="true"
-          android:icon="@drawable/doctor"
+          android:icon="@drawable/puskesmas"
           android:title="Puskemas" />
         <item
           android:id="@+id/nav_klinik"
           android:checked="true"
-          android:icon="@drawable/doctor"
+          android:icon="@drawable/klinik"
           android:title="Klinik" />
         <item
             android:id="@+id/navItemAbout"
             android:checked="true"
-            android:icon="@drawable/ic_info_24px"
+            android:icon="@drawable/about"
             android:title="@string/about" />
 
     </group>
