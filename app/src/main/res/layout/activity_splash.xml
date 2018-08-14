@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.simx.riskiprojects.ui.splash.SplashActivity">
     <ImageView
-      android:src="@drawable/splash_riski"
+      android:src="@drawable/splash"
       android:textColor="@android:color/white"
       android:textSize="20dp"
       android:id="@+id/tv_name"
