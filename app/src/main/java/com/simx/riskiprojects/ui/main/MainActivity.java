@@ -170,6 +170,7 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 		rcvMenu.setLayoutManager(new LinearLayoutManager(this));
 		List<MenuDrawer> menuDrawers = new ArrayList<>();
 		menuDrawers.add(new MenuDrawer("Home", "home", R.drawable.home));
+		menuDrawers.add(new MenuDrawer("All", "all", R.drawable.home));
 		menuDrawers.add(new MenuDrawer("Rumah Sakit", "rumah_sakit", R.drawable.rumah_sakit));
 		menuDrawers.add(new MenuDrawer("Puskesmas", "puskesmas", R.drawable.puskesmas));
 		menuDrawers.add(new MenuDrawer("Klinik", "klinik", R.drawable.klinik));
@@ -224,6 +225,8 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 	public void onAdapterMenuClicked(MenuDrawer menuDrawer) {
 		switch (menuDrawer.getCode()) {
 			case "home": loadFragment(HomeFragment.newInstance());
+				return;
+			case "all": loadFragment(PlacesFragment.newInstance("all"));
 				return;
 			case "rumah_sakit":loadFragment(PlacesFragment.newInstance("rumah_sakit"));
 				return;

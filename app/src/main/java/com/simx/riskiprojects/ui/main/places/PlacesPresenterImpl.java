@@ -22,6 +22,19 @@ public class PlacesPresenterImpl {
 		this.presenter = presenter;
 
 	}
+	public void getAllPlace(){
+		presenter.showLoading(true);
+		Query query = colRef;
+		query.get().addOnCompleteListener(task -> {
+			List<ResponseSample> responseSamples = task.getResult().toObjects(ResponseSample.class);
+			Log.e("PlacesPresenterImpl", "getPlaceRs: " + responseSamples.size());
+			presenter.initData(responseSamples);
+			presenter.showLoading(false);
+		}).addOnFailureListener(e -> {
+			presenter.showError(e.getMessage());
+		});
+	}
+
 	@SuppressLint("CheckResult")
 	public void getPlaceRs(String type, String spinner_selected, String name) {
 		String end = name+ '\uf8ff';
@@ -30,7 +43,8 @@ public class PlacesPresenterImpl {
 		if (name!=null){
 			if (type.equalsIgnoreCase("puskesmas")){
 				switch (spinner_selected) {
-					case "Semua":query = colRef.whereEqualTo("tipe", type).orderBy("name").startAt(name).endAt(end);
+					case "Semua":
+						query = colRef.whereEqualTo("tipe", type).orderBy("name").startAt(name).endAt(end);
 						break;
 					case "Rawat Inap":
 						query = colRef.whereEqualTo("tipe", type).whereEqualTo("rawatInap","Ya").orderBy("name").startAt(name).endAt(end);
