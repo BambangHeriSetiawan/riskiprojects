@@ -1,6 +1,7 @@
 package com.simx.riskiprojects.ui.main;
 
 
+import android.content.Context;
 import com.simx.riskiprojects.ui.main.MainActivity;
 import com.simx.riskiprojects.ui.main.MainPresenter;
 import com.simx.riskiprojects.ui.main.MainPresenterImpl;
@@ -20,5 +21,8 @@ public class MainActivityModul {
     @Provides
     MainPresenterImpl provideMainPresenterImp(MainPresenter mainView){
         return new MainPresenterImpl(mainView);
+    }
+    @Provides AdapterMenuDrawer provideAdapterMenuDrawer(Context context, MainPresenter presenter){
+        return new AdapterMenuDrawer(context,presenter);
     }
 }

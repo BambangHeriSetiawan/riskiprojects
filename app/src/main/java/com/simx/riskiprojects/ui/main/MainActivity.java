@@ -3,8 +3,6 @@ package com.simx.riskiprojects.ui.main;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.LocationManager;
@@ -32,6 +30,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,38 +58,47 @@ import com.simx.riskiprojects.ui.main.home.HomeFragment;
 import com.simx.riskiprojects.ui.main.places.PlacesFragment;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import org.imperiumlabs.geofirestore.GeoFirestore;
-import org.imperiumlabs.geofirestore.GeoFirestore.CompletionListener;
 
 
 public class MainActivity extends BaseActivitySuppotFragment implements MainPresenter {
 
 	@Inject
 	MainPresenterImpl presenter;
+	@Inject
+	AdapterMenuDrawer adapterMenuDrawer;
 	@BindView(R.id.toolbar)
 	Toolbar toolbar;
 	@BindView(R.id.activityMain)
 	LinearLayout activityMain;
 	@BindView(R.id.clRootView)
 	CoordinatorLayout clRootView;
-	@BindView(R.id.tvAppVersion)
-	TextView tvAppVersion;
 	@BindView(R.id.navigationView)
 	NavigationView navigationView;
 	@BindView(R.id.drawerView)
 	DrawerLayout drawerView;
-	TextView tvName, tvEmail;
-	RoundedImageView imgProfile;
 	@BindView(R.id.rcv_sample)
 	RecyclerView rcvSample;
+	@BindView(R.id.rcv_menu)
+	RecyclerView rcvMenu;
+	@BindView(R.id.frame)
+	FrameLayout frame;
+	@BindView(R.id.iv_profile_pic)
+	RoundedImageView ivProfilePic;
+	@BindView(R.id.tv_name)
+	TextView tvName;
+	@BindView(R.id.tv_email)
+	TextView tvEmail;
 	private FirebaseFirestore db;
 	private CollectionReference colRef;
 
 	private AlertDialog mInternetDialog;
 	private AlertDialog mGPSDialog;
 	private boolean doubleBackToExitPressedOnce = false;
+
 	public static void start(Context context) {
 		Intent starter = new Intent(context, MainActivity.class);
 		starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -119,6 +127,7 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 		}
 	};
 	private AdapterSample adapterSample;
+
 	@SuppressLint("CheckResult")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -154,14 +163,20 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 		};
 		drawerView.addDrawerListener(mDrawerToggle);
 		mDrawerToggle.syncState();
-		String version = getString(R.string.version) + " " + BuildConfig.VERSION_NAME;
-		View hView = navigationView.getHeaderView(0);
-		tvName = hView.findViewById(R.id.tv_name);
-		tvEmail = hView.findViewById(R.id.tv_email);
-		imgProfile = hView.findViewById(R.id.iv_profile_pic);
-		tvAppVersion.setText(version);
 		navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
 		loadFragment(HomeFragment.newInstance());
+		rcvMenu.setHasFixedSize(true);
+		rcvMenu.setItemAnimator(new DefaultItemAnimator());
+		rcvMenu.setLayoutManager(new LinearLayoutManager(this));
+		List<MenuDrawer> menuDrawers = new ArrayList<>();
+		menuDrawers.add(new MenuDrawer("Home", "home", R.drawable.home));
+		menuDrawers.add(new MenuDrawer("All", "all", R.drawable.home));
+		menuDrawers.add(new MenuDrawer("Rumah Sakit", "rumah_sakit", R.drawable.rumah_sakit));
+		menuDrawers.add(new MenuDrawer("Puskesmas", "puskesmas", R.drawable.puskesmas));
+		menuDrawers.add(new MenuDrawer("Klinik", "klinik", R.drawable.klinik));
+		menuDrawers.add(new MenuDrawer("About", "about", R.drawable.about));
+		adapterMenuDrawer.setMenus(menuDrawers);
+		rcvMenu.setAdapter(adapterMenuDrawer);
 	}
 
 	@Override
@@ -206,8 +221,27 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 			}
 		}
 	};
+	@Override
+	public void onAdapterMenuClicked(MenuDrawer menuDrawer) {
+		switch (menuDrawer.getCode()) {
+			case "home": loadFragment(HomeFragment.newInstance());
+				return;
+			case "all": loadFragment(PlacesFragment.newInstance("all"));
+				return;
+			case "rumah_sakit":loadFragment(PlacesFragment.newInstance("rumah_sakit"));
+				return;
+			case "puskesmas":loadFragment(PlacesFragment.newInstance("puskesmas"));
+				return;
+			case "klinik":loadFragment(PlacesFragment.newInstance("klinik"));
+				return;
+			case "about": showDialogAbout();
+				return;
+			default:loadFragment(HomeFragment.newInstance());
+		}
+	}
 
 	private void showDialogAbout() {
+		if (drawerView.isDrawerOpen(Gravity.START))drawerView.closeDrawer(Gravity.START);
 		ProgresUtils.getInstance().showLodingDialogMsgBtn(this,
 				"Find Near Hospital adalah aplikasi yang memudahkan dalam mencari "
 						+ "tempat layanan kesehatan terdekat dan juga yang diinginkan yang "
@@ -236,7 +270,7 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 			this.doubleBackToExitPressedOnce = true;
 			Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
-			new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
+			new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
 		}
 
 	}
@@ -324,13 +358,15 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 		mGPSDialog.show();
 	}
 
+
 	@SuppressLint("CheckResult")
 	private void getDummyData() {
 		Factory.create().getAll().subscribeOn(Schedulers.newThread())
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(responseSamples -> pushToFirestore(responseSamples)/*adapterSample.setResponseSamples(responseSamples)*/,
-						throwable -> Log.e("MainActivity", "getDummyData: " + throwable),
-						() -> Log.e("MainActivity", "getDummyData: "));
+				.observeOn(AndroidSchedulers.mainThread()).subscribe(
+				responseSamples -> pushToFirestore(
+						responseSamples)/*adapterSample.setResponseSamples(responseSamples)*/,
+				throwable -> Log.e("MainActivity", "getDummyData: " + throwable),
+				() -> Log.e("MainActivity", "getDummyData: "));
 	}
 
 	private void pushToFirestore(List<ResponseSample> responseSamples) {
@@ -349,22 +385,25 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 			});
 		}
 	}
+
 	private void readDataFirestore() {
 		colRef.get().addOnCompleteListener(task -> {
-			if (task.isSuccessful()){
+			if (task.isSuccessful()) {
 				for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
-					Log.e("MainActivity", "readDataFirestore: " + task.getResult().getDocuments().get(i).getId());
-					Log.e("MainActivity", "readDataFirestore: " + task.getResult().getDocuments().get(i).get("latitude"));
-					Log.e("MainActivity", "readDataFirestore: " + task.getResult().getDocuments().get(i).get("longitude"));
-					if (
-							task.getResult().getDocuments().get(i).get("latitude")!=null
-							&& task.getResult().getDocuments().get(i).get("latitude")!=null
-							){
+					Log.e("MainActivity",
+							"readDataFirestore: " + task.getResult().getDocuments().get(i).getId());
+					Log.e("MainActivity",
+							"readDataFirestore: " + task.getResult().getDocuments().get(i)
+									.get("latitude"));
+					Log.e("MainActivity",
+							"readDataFirestore: " + task.getResult().getDocuments().get(i)
+									.get("longitude"));
+					if (task.getResult().getDocuments().get(i).get("latitude") != null
+							&& task.getResult().getDocuments().get(i).get("latitude") != null) {
 						pushGeoFire(
 								task.getResult().getDocuments().get(i).get("latitude").toString(),
 								task.getResult().getDocuments().get(i).get("longitude").toString(),
-								task.getResult().getDocuments().get(i).getId()
-						);
+								task.getResult().getDocuments().get(i).getId());
 					}
 				}
 
@@ -376,11 +415,13 @@ public class MainActivity extends BaseActivitySuppotFragment implements MainPres
 		//ProgresUtils.getInstance().showLodingDialog(this);
 		GeoFirestore geoFirestore = new GeoFirestore(colRef);
 		GeoPoint geoPoint;
-		if (lat==null && lng==null){
-			geoPoint = new GeoPoint(0.0,0.0);
-		}else {
+		if (lat == null && lng == null) {
+			geoPoint = new GeoPoint(0.0, 0.0);
+		} else {
 			geoPoint = new GeoPoint(Double.parseDouble(lat), Double.parseDouble(lng));
 		}
-		geoFirestore.setLocation(key, geoPoint, e -> Log.e("MainActivity", "pushGeoFire: " + e.getMessage()));
+		geoFirestore.setLocation(key, geoPoint,
+				e -> Log.e("MainActivity", "pushGeoFire: " + e.getMessage()));
 	}
+
 }

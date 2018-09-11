@@ -155,4 +155,8 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:background">@drawable/button_primary_bg</item>
     </style>
+    <style name="Coordinator">
+        <item
+          name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+    </style>
 </resources>

@@ -73,8 +73,7 @@ public class PlacesFragment extends BaseFragment implements PlacesPresenter,
 
 	String[] rumah_sakits = new String[]{"Semua", "Umum", "Khusus Mata", "Khusus Jiwa",
 			"Ibu dan Anak", "Bersalin"};
-	String[] klikiks = new String[]{"Semua", "Kecantikan", "Umum", "Umum ( 24 jam )",
-			"Umum ( sampai jam 22 )", "Gigi", "Bersalin"};
+	String[] klikiks = new String[]{"Semua", "Kecantikan", "Umum", "Umum ( 24 jam )", "Gigi", "Bersalin"};
 	String[] puskesmas = new String[]{"Semua", "Rawat Inap", "Non-Rawat Inap"};
 
 	@Override
@@ -84,30 +83,38 @@ public class PlacesFragment extends BaseFragment implements PlacesPresenter,
 		View view = inflater.inflate(R.layout.rs_fragment, container, false);
 		unbinder = ButterKnife.bind(this, view);
 		type = getArguments().getString("key");
-		if (type.equalsIgnoreCase("rumah_sakit")) {
-			arrayAdapter = new ArrayAdapter<String>(getContext(),
-					android.R.layout.simple_spinner_dropdown_item, rumah_sakits);
-		} else if (type.equalsIgnoreCase("puskesmas")) {
-			arrayAdapter = new ArrayAdapter<String>(getContext(),
-					android.R.layout.simple_spinner_dropdown_item, puskesmas);
-		} else {
-			arrayAdapter = new ArrayAdapter<String>(getContext(),
-					android.R.layout.simple_spinner_dropdown_item, klikiks);
+		if (type.equalsIgnoreCase("all")){
+			spnFilter.setVisibility(View.GONE);
+			presenter.getAllPlace();
 		}
-		spnFilter.setAdapter(arrayAdapter);
-		spnFilter.setOnItemSelectedListener(this);
-		//presenter.getPlaceRs(type);
+		else if (type.equalsIgnoreCase("rumah_sakit")) {
+			arrayAdapter = new ArrayAdapter<>(getContext(),
+					android.R.layout.simple_spinner_dropdown_item, rumah_sakits);
+			spnFilter.setAdapter(arrayAdapter);
+			spnFilter.setOnItemSelectedListener(this);
+		} else if (type.equalsIgnoreCase("puskesmas")) {
+			arrayAdapter = new ArrayAdapter<>(getContext(),
+					android.R.layout.simple_spinner_dropdown_item, puskesmas);
+			spnFilter.setAdapter(arrayAdapter);
+			spnFilter.setOnItemSelectedListener(this);
+		} else {
+			arrayAdapter = new ArrayAdapter<>(getContext(),
+					android.R.layout.simple_spinner_dropdown_item, klikiks);
+			spnFilter.setAdapter(arrayAdapter);
+			spnFilter.setOnItemSelectedListener(this);
+		}
+
+
 		etFilter.setOnQueryTextListener(new OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String s) {
-				Log.e("PlacesFragment", "onQueryTextSubmit: " );
+
 				adapterPlace.getFilter().filter(s);
 				return false;
 			}
 
 			@Override
 			public boolean onQueryTextChange(String s) {
-				Log.e("PlacesFragment", "onQueryTextChange: " );
 				adapterPlace.getFilter().filter(s);
 				return false;
 			}

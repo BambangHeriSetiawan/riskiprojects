@@ -9,4 +9,6 @@ public interface MainPresenter {
 	void showError(String message);
 
 	void startServiceLocation();
+
+	void onAdapterMenuClicked(MenuDrawer menuDrawer);
 }
